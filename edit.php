@@ -3,14 +3,14 @@
     
     Name: Tin Le
     Date: 03/14/2023
-    Description: CMS Project - Upload function
+    Description: CMS Project - Edit function
 
 ****************/
 
     require('connect.php');
 
     //  Sanitize user input to escape HTML entities and filter out dangerous characters.
-    $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
+    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $genre = filter_input(INPUT_POST, 'genre', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
@@ -19,7 +19,7 @@
 
     if($_POST){
         //  Build the parameterized SQL query and bind to the above sanitized values.
-        $query = "INSERT INTO books (title, genre, author, content, rating) VALUES (:title, :genre, :author, :content, :rating)";  
+        $query = "UPDATE books SET title = :title, genre = :genre, author = :author, content = :content, rating = :rating WHERE id = $id";
         
         // A PDO::Statement is prepared from the query.
         $statement = $db->prepare($query);
@@ -31,7 +31,7 @@
         $statement->bindValue(":content", $content);
         $statement->bindValue(":rating", $rating);
 
-        //  Execute the INSERT.
+        //  Execute the UPDATE.
         //  execute() will check for possible SQL injection and remove if necessary
         if($statement->execute()){
             header("Location: index.php");
