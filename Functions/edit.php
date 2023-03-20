@@ -11,11 +11,11 @@
 
     //  Sanitize user input to escape HTML entities and filter out dangerous characters.
     $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
-    $title = $_POST['title'];
+    $title = filter_input(INPUT_POST,'title',FILTER_SANITIZE_FULL_SPECIAL_CHARS)
     $genre = filter_input(INPUT_POST, 'genre', FILTER_VALIDATE_INT);
     $author = filter_input(INPUT_POST, 'author', FILTER_VALIDATE_INT);
-    $content = $_POST['content'];
-    $rating = filter_input(INPUT_POST, 'rating', FILTER_VALIDATE_FLOAT);
+    $content = filter_input(INPUT_POST,'content',FILTER_SANITIZE_FULL_SPECIAL_CHARS)
+    $rating = floatval($_POST['rating']);
 
     if($_POST){
         //  Build the parameterized SQL query and bind to the above sanitized values.

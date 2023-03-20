@@ -10,18 +10,13 @@
 require ('authenticate.php');
 require ('connect.php');
 
-if($_POST && isset($_POST['title'])){
-    // SQL is written as a String.
-    $query = "SELECT * FROM books WHERE book_id = {$_POST['title']}";  
+$query = "SELECT * FROM books ORDER BY book_id ASC"; 
 
-    // A PDO::Statement is prepared from the query.
-    $statement = $db->prepare($query);
+// A PDO::Statement is prepared from the query.
+$statement = $db->prepare($query);
 
-    // Execution on the DB server is delayed until we execute().
-    $statement->execute(); 
-
-    $book = $statement->fetch();
-}
+// Execution on the DB server is delayed until we execute().
+$statement->execute(); 
    
 ?>
 
@@ -44,7 +39,7 @@ if($_POST && isset($_POST['title'])){
             
             <div class="navContainer">
                 <nav class="navMenu">
-                    <a href="index.php" class="navigation">Home</a>
+                    <a href="#" class="navigation">Home</a>
                     <a href="#" class="navigation">Genre</a>
                     <a href="#" class="navigation">Author</a>
                     <a href="#" class="navigation">Library</a>
@@ -63,47 +58,29 @@ if($_POST && isset($_POST['title'])){
             </div>
         </div> 
 
-        
         <section class="main">
             <div id="admin_book">  
-                <form method="post" id="form" action="edit.php"> 
+                <form method="post" id="form" action="admin_edit.php"> 
                     <div id="title">
                         <a href="admin_book.php">Add New Book <i class="fa-solid fa-plus"></i></a>
                         <a href="admin_pre_edit.php">Edit Book <i class="fa-solid fa-pen-to-square"></i></a>
                         <a href="admin_delete.php">Delete Book <i class="fa-solid fa-trash"></i></a>
                     </div>    
             
-                    <div class="post_input">    
-                        <input name="id" type="hidden" value="<?= $book['book_id'] ?>">  
-
+                    <div class="post_input">       
                         <div class="input-container">
-                            <input type="text" name="title" required="" value="<?= $book['book_name'] ?>">
-                            <label>Title</label>
+                            <input type="text" name="title" required="" list="title_browser">
+                            <label>Book ID for Editing</label>
+                            <datalist id="title_browser">
+                                <?php while($book = $statement->fetch()): ?>
+                                    <option value="<?= $book['book_id'] ?>"><?= $book['book_name'] ?></option>
+                                <?php endwhile ?>
+                            </datalist>
                         </div>
-                                
-                        <div class="input-container">
-                            <input type="text" name="genre" required="" value="<?= $book['genre_id'] ?>">
-                            <label>Genre</label>
-                        </div>    
-
-                        <div class="input-container">
-                            <input type="text" name="author" required="" value="<?= $book['author_id'] ?>">
-                            <label>Author</label>
-                        </div>    
-
-                        <div class="input-container">
-                            <textarea name="content" required=""><?= $book['book_description'] ?></textarea>
-                            <label>Short Description</label>
-                        </div>
-
-                        <div class="input-container">
-                            <input type="text" name="rating" required="" value="⭐<?= $book['rating'] ?>">
-                            <label>Rating</label>
-                        </div>
-
-                        <div><input type="submit" id="button" value="Edit Book"></div>
+                          
+                        <div><input type="submit" id="button" value="Choose Book"></div>
                     </div>
-                </form>   
+                </form> 
             </div>
         </section>
 

@@ -3,21 +3,22 @@
     
     Name: Tin Le
     Date: 03/14/2023
-    Description: CMS Project - Admin Edit Page
+    Description: CMS Project - Admin Upload Page
 
 ****************/
 
 require ('authenticate.php');
 require ('connect.php');
 
-$query = "SELECT * FROM books ORDER BY book_id ASC"; 
+// Prepare query to get genre_name from genre_id in Genres table
+$genre_query = "SELECT * FROM genres ORDER BY genre_id ASC";
+$genre_statement = $db->prepare($genre_query);
+$genre_statement->execute();
 
-// A PDO::Statement is prepared from the query.
-$statement = $db->prepare($query);
-
-// Execution on the DB server is delayed until we execute().
-$statement->execute(); 
-   
+// Prepare query to get pen_name from author_id in Authors table
+$author_query = "SELECT * FROM authors ORDER BY author_id ASC";
+$author_statement = $db->prepare($author_query);
+$author_statement->execute();
 ?>
 
 <!DOCTYPE html>
@@ -26,10 +27,10 @@ $statement->execute();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="admin_edit.css">
+    <link rel="stylesheet" href="admin_book.css">
     <script src="https://kit.fontawesome.com/1b22186fee.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <title>Edit Page</title>
+    <title>Upload Page</title>
 </head>
 <body>
     <div class="main_page">
@@ -58,29 +59,57 @@ $statement->execute();
             </div>
         </div> 
 
+        
         <section class="main">
             <div id="admin_book">  
-                <form method="post" id="form" action="admin_edit.php"> 
+                <form method="post" id="form" action="upload.php"> 
                     <div id="title">
                         <a href="admin_book.php">Add New Book <i class="fa-solid fa-plus"></i></a>
-                        <a href="">Edit Book <i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="admin_pre_edit.php">Edit Book <i class="fa-solid fa-pen-to-square"></i></a>
                         <a href="admin_delete.php">Delete Book <i class="fa-solid fa-trash"></i></a>
                     </div>    
             
-                    <div class="post_input">       
+                    <div class="post_input">
+                            
                         <div class="input-container">
-                            <input type="text" name="title" required="" list="title_browser">
-                            <label>Book ID for Editing</label>
-                            <datalist id="title_browser">
-                                <?php while($book = $statement->fetch()): ?>
-                                    <option value="<?= $book['book_id'] ?>"><?= $book['book_name'] ?></option>
+                            <input type="text" name="title" required="">
+                            <label>Title</label>
+                        </div>
+                                
+                        <div class="input-container">
+                            <input type="text" name="genre" list="genre_browser" required="">
+                            <label>Genre</label>
+                            <datalist id="genre_browser">
+                                <?php while($genre = $genre_statement->fetch()): ?>
+                                    <option value="<?= $genre['genre_id'] ?>"><?= $genre['genre_name'] ?></option>
                                 <?php endwhile ?>
                             </datalist>
+                        </div>    
+
+                        <div class="input-container">
+                            <input type="text" name="author" list="author_browser" required="">
+                            <label>Author</label>
+                            <datalist id="author_browser">
+                                <?php while($author = $author_statement->fetch()): ?>
+                                    <option value="<?= $author['author_id'] ?>"><?= $author['pen_name'] ?></option>
+                                <?php endwhile ?>
+                            </datalist>
+                            <a href="new_item.php">+ New Author</a>
+                        </div>    
+
+                        <div class="input-container">
+                            <textarea name="content" required=""></textarea>
+                            <label>Short Description</label>
                         </div>
-                          
-                        <div><input type="submit" id="button" value="Choose Book"></div>
+
+                        <div class="input-container">
+                            <input type="text" name="rating" required="">
+                            <label>Rating</label>
+                        </div>
+
+                        <div><input type="submit" id="button" value="Upload Book"></div>
                     </div>
-                </form> 
+                </form>
             </div>
         </section>
 

@@ -10,16 +10,15 @@
     require('connect.php');
 
     //  Sanitize user input to escape HTML entities and filter out dangerous characters.
-    $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $genre = filter_input(INPUT_POST, 'genre', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-    $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+    $genre = filter_input(INPUT_POST, 'genre', FILTER_VALIDATE_INT);
+    $author = filter_input(INPUT_POST, 'author', FILTER_VALIDATE_INT);
     $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $rating = filter_input(INPUT_POST, 'rating', FILTER_VALIDATE_FLOAT);
 
     if($_POST){
         //  Build the parameterized SQL query and bind to the above sanitized values.
-        $query = "INSERT INTO books (title, genre, author, content, rating) VALUES (:title, :genre, :author, :content, :rating)";  
+        $query = "INSERT INTO books (book_name, genre_id, author_id, book_description, rating) VALUES (:title, :genre, :author, :content, :rating)";  
         
         // A PDO::Statement is prepared from the query.
         $statement = $db->prepare($query);
