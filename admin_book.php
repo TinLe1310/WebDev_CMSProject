@@ -54,7 +54,7 @@ require ('authenticate.php')
                 <form method="post" id="form" action="upload.php"> 
                     <div id="title">
                         <a href="">Add New Book <i class="fa-solid fa-plus"></i></a>
-                        <a href="admin_edit.php">Edit Book <i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="admin_pre_edit.php">Edit Book <i class="fa-solid fa-pen-to-square"></i></a>
                         <a href="admin_delete.php">Delete Book <i class="fa-solid fa-trash"></i></a>
                     </div>    
             
