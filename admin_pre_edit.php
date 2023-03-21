@@ -48,7 +48,7 @@ $statement->execute();
                 </nav>
 
                 <div class="welcome">
-                    <h1>Welcome back The Librarian <i class="fa-brands fa-teamspeak"></i></h1>		
+                    <h1>Editing Book <i class="fa-brands fa-teamspeak"></i></h1>		
                 </div>
 
             </div>
@@ -69,7 +69,7 @@ $statement->execute();
             
                     <div class="post_input">       
                         <div class="input-container">
-                            <input type="text" name="title" required="" list="title_browser">
+                            <input type="text" name="id" required="" list="title_browser">
                             <label>Book ID for Editing</label>
                             <datalist id="title_browser">
                                 <?php while($book = $statement->fetch()): ?>

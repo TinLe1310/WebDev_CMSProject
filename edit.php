@@ -38,7 +38,7 @@
             exit;
         }
     }
-    else $message = " ❗❗❗ ERROR❗❗❗";
+    else $message = "❗❗❗ ERROR❗❗❗";
 
 
 ?>

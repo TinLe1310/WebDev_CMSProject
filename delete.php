@@ -14,7 +14,7 @@
 
     if($_POST){
         //  Build the parameterized SQL query and bind to the above sanitized values.
-        $query = "DELETE FROM books WHERE id = $id";
+        $query = "DELETE FROM books WHERE book_id = $id";
         
         // A PDO::Statement is prepared from the query.
         $statement = $db->prepare($query);
@@ -26,7 +26,7 @@
             exit;
         }
     }
-    else $message = " ❗❗❗ ERROR❗❗❗";
+    else $message = "❗❗❗ ERROR❗❗❗";
 
 
 ?>

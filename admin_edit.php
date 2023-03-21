@@ -10,9 +10,9 @@
 require ('authenticate.php');
 require ('connect.php');
 
-if($_POST && isset($_POST['title'])){
+if($_POST && isset($_POST['id'])){
     // SQL is written as a String.
-    $query = "SELECT * FROM books WHERE book_id = {$_POST['title']}";  
+    $query = "SELECT * FROM books WHERE book_id = {$_POST['id']}";  
 
     // A PDO::Statement is prepared from the query.
     $statement = $db->prepare($query);
@@ -63,7 +63,7 @@ if($_POST && isset($_POST['title'])){
                 </nav>
 
                 <div class="welcome">
-                    <h1>Welcome back The Librarian <i class="fa-brands fa-teamspeak"></i></h1>
+                    <h1>Editing Book <i class="fa-brands fa-teamspeak"></i></h1>
                 </div>
 
             </div>
