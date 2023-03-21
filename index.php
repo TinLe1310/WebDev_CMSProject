@@ -9,7 +9,7 @@
 require('connect.php');
 
 // SQL is written as a String.
-$query = "SELECT * FROM blogs ORDER BY blogs.id DESC LIMIT 5";
+$query = "SELECT * FROM books ORDER BY rating DESC LIMIT 6";
 
  // A PDO::Statement is prepared from the query.
 $statement = $db->prepare($query);
@@ -17,6 +17,18 @@ $statement = $db->prepare($query);
 // Execution on the DB server is delayed until we execute().
 $statement->execute();
 
+$image_array = [];
+
+// Truncated string for the blog over 200 characters. 
+$length = 500;
+
+function truncate($text, $length) {
+if ($length >= \strlen($text)) {
+    return $text;
+}
+
+return preg_replace("/^(.{1,$length})(\s.*|$)/s",'\\1...',$text);
+}
 ?>
 
 <!DOCTYPE html>
@@ -70,97 +82,47 @@ $statement->execute();
                     <input type="radio" name="slides" id="slide-5">
                     <input type="radio" name="slides" id="slide-6">
                     <ul class="carousel__slides">
-                        <li class="carousel__slide">
-                            <figure>
-                                <div>
-                                    <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1615580168i/41880609.jpg" alt="">
-                                </div>
-                                <figcaption>
-                                    Book title
-                                    <span class="description">Description</span>
-                                    <span class="credit">Author:</span>
-                                </figcaption>
-                            </figure>
-                        </li>
-                        <li class="carousel__slide">
-                            <figure>
-                                <div>
-                                    <img src="https://picsum.photos/id/1043/800/450" alt="">
-                                </div>
-                                <figcaption>
-                                    Book title
-                                    <span class="description">Description</span>
-                                    <span class="credit">Author:</span>                          
-                                </figcaption>
-                            </figure>
-                        </li>
-                        <li class="carousel__slide">
-                            <figure>
-                                <div>
-                                    <img src="https://picsum.photos/id/1044/800/450" alt="">
-                                </div>
-                                <figcaption>
-                                    Book title
-                                    <span class="description">Description</span>
-                                    <span class="credit">Author:</span>                            
-                                </figcaption>
-                            </figure>
-                        </li>
-                        <li class="carousel__slide">
-                            <figure>
-                                <div>
-                                    <img src="https://picsum.photos/id/1045/800/450" alt="">
-                                </div>
-                                <figcaption>
-                                    Book title
-                                    <span class="description">Description</span>
-                                    <span class="credit">Author:</span>                           
-                                </figcaption>
-                            </figure>
-                        </li>
-                        <li class="carousel__slide">
-                            <figure>
-                                <div>
-                                    <img src="https://picsum.photos/id/1049/800/450" alt="">
-                                </div>
-                                <figcaption>
-                                    Book title
-                                    <span class="description">Description</span>
-                                    <span class="credit">Author:</span>                            
-                                </figcaption>
-                            </figure>
-                        </li>
-                        <li class="carousel__slide">
-                            <figure>
-                                <div>
-                                    <img src="https://picsum.photos/id/1052/800/450" alt="">
-                                </div>
-                                <figcaption>
-                                    Book title
-                                    <span class="description">Description</span>
-                                    <span class="credit">Author:</span>                            
-                                </figcaption>
-                            </figure>
-                        </li>
+                        <?php while($book=$statement->fetch()): ?>
+                            <?php $image_array[] = $book['cover'] ?>
+                            <li class="carousel__slide">
+                                <figure>
+                                    <div>
+                                        <img src="<?= $book['cover'] ?>" alt="cover_images">
+                                    </div>
+                                    <figcaption>
+                                        <?= $book['book_name'] ?>
+                                        <span class="description">
+                                            <?php if($length < strlen($book['book_description'])):?>
+                                                <?= truncate($book['book_description'], $length) ?>
+                                                <a href="" class="">Read more</a>
+                                            <?php else: ?>
+                                                <?= $book['book_description'] ?>
+                                            <?php endif ?>
+                                        </span>
+                                        <span class="credit">Author: <?= $book['author_id'] ?></span>
+                                    </figcaption>
+                                </figure>
+                            </li>
+                        <?php endwhile ?>
                     </ul>    
                     <ul class="carousel__thumbnails">
                         <li>
-                            <label for="slide-1"><img src="https://picsum.photos/id/1041/150/150" alt=""></label>
+                            <label for="slide-1"><img src="<?= $image_array[0] ?>" alt=""></label>
+                        </li>               
+                        <li>
+                            <label for="slide-2"><img src="<?= $image_array[1] ?>" alt=""></label>
                         </li>
                         <li>
-                            <label for="slide-2"><img src="https://picsum.photos/id/1043/150/150" alt=""></label>
+                            <label for="slide-3"><img src="<?= $image_array[2] ?>" alt=""></label>
                         </li>
                         <li>
-                            <label for="slide-3"><img src="https://picsum.photos/id/1044/150/150" alt=""></label>
+                            <label for="slide-4"><img src="<?= $image_array[3] ?>" alt=""></label>
                         </li>
                         <li>
-                            <label for="slide-4"><img src="https://picsum.photos/id/1045/150/150" alt=""></label>
+                            <label for="slide-5"><img src="<?= $image_array[4] ?>" alt=""></label>
                         </li>
                         <li>
-                            <label for="slide-5"><img src="https://picsum.photos/id/1049/150/150" alt=""></label>
-                        </li>
-                        <li>
-                            <label for="slide-6"><img src="https://picsum.photos/id/1052/150/150" alt=""></label>
+                            <label for="slide-6"><img src="<?= $image_array[5] ?>" alt=""></label>
                         </li>
                     </ul>
                 </div>
