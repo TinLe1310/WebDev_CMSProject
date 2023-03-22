@@ -9,7 +9,10 @@
 require('connect.php');
 
 // SQL is written as a String.
-$query = "SELECT * FROM books ORDER BY rating DESC LIMIT 6";
+$query = "SELECT book_id, book_name, book_description, date_uploaded, rating, cover, pen_name, genre_name
+          FROM books b JOIN authors a ON a.author_id = b.author_id 
+                       JOIN genres g ON g.genre_id = b.genre_id
+          ORDER BY rating DESC LIMIT 6";
 
  // A PDO::Statement is prepared from the query.
 $statement = $db->prepare($query);
@@ -73,7 +76,7 @@ return preg_replace("/^(.{1,$length})(\s.*|$)/s",'\\1...',$text);
         
         <section class="main">
             <div class="container">
-                <h1><i class="fa-solid fa-bookmark"></i> Top Rating Titles <i class="fa-solid fa-bookmark"></i></h1>
+                <h1><i class="fa-solid fa-bookmark"></i> Most Popular <i class="fa-solid fa-bookmark"></i></h1>
                 <div class="carousel">
                     <input type="radio" name="slides" checked="checked" id="slide-1">
                     <input type="radio" name="slides" id="slide-2">
@@ -90,16 +93,19 @@ return preg_replace("/^(.{1,$length})(\s.*|$)/s",'\\1...',$text);
                                         <img src="<?= $book['cover'] ?>" alt="cover_images">
                                     </div>
                                     <figcaption>
-                                        <?= $book['book_name'] ?>
+                                        <a href="detailed_index.php?id=<?= $book['book_id'] ?>" class="title">
+                                            <span><?= $book['book_name'] ?></span>
+                                        </a>
                                         <span class="description">
                                             <?php if($length < strlen($book['book_description'])):?>
                                                 <?= truncate($book['book_description'], $length) ?>
-                                                <a href="" class="">Read more</a>
+                                                <a href="detailed_index.php?id=<?= $book['book_id'] ?>">Read more</a>
                                             <?php else: ?>
                                                 <?= $book['book_description'] ?>
                                             <?php endif ?>
                                         </span>
-                                        <span class="credit">Author: <?= $book['author_id'] ?></span>
+                                        <span class="credit">Genre: <?= $book['genre_name'] ?></span>
+                                        <span class="credit">Author: <?= $book['pen_name'] ?></span>
                                     </figcaption>
                                 </figure>
                             </li>
@@ -134,7 +140,7 @@ return preg_replace("/^(.{1,$length})(\s.*|$)/s",'\\1...',$text);
                         <img src="https://i.loli.net/2019/11/23/cnKl1Ykd5rZCVwm.jpg" />
                     </div>
                     <div class="card__face card__face--back">
-                        <img src="https://i.loli.net/2019/11/16/cqyJiYlRwnTeHmj.jpg" />
+                        <img src="https://images-na.ssl-images-amazon.com/images/S/compressed.photo.goodreads.com/books/1647930822i/23807.jpg" />
                     </div>
                 </div>
             </div>

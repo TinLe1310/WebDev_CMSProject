@@ -40,7 +40,7 @@ $author_statement->execute();
             
             <div class="navContainer">
                 <nav class="navMenu">
-                    <a href="#" class="navigation">Home</a>
+                    <a href="index.php" class="navigation">Home</a>
                     <a href="#" class="navigation">Genre</a>
                     <a href="#" class="navigation">Author</a>
                     <a href="#" class="navigation">Library</a>
@@ -55,7 +55,7 @@ $author_statement->execute();
             </div>
             
             <div class="add_book">
-                <a href="admin.php"><i class="fa-solid fa-book-medical"></i></a>
+                <a href="admin_book.php"><i class="fa-solid fa-book-medical"></i></a>
             </div>
         </div> 
 
@@ -98,7 +98,7 @@ $author_statement->execute();
                         </div>    
 
                         <div class="input-container">
-                            <textarea name="content" required=""></textarea>
+                            <textarea id="content" name="content" required=""></textarea>
                             <label>Short Description</label>
                         </div>
 

@@ -112,7 +112,7 @@ if($_POST && isset($_POST['id'])){
                         </div>    
 
                         <div class="input-container">
-                            <textarea name="content" required=""><?= $book['book_description'] ?></textarea>
+                            <textarea id="content" name="content" required=""><?= $book['book_description'] ?></textarea>
                             <label>Short Description</label>
                         </div>
 
