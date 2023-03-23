@@ -7,7 +7,6 @@
 
 ****************/
 
-require ('authenticate.php');
 require ('connect.php');
 
 $query = "SELECT * FROM books ORDER BY book_id ASC"; 
@@ -39,12 +38,12 @@ $statement->execute();
             
             <div class="navContainer">
                 <nav class="navMenu">
-                    <a href="#" class="navigation">Home</a>
-                    <a href="#" class="navigation">Genre</a>
+                    <a href="index.php" class="navigation">Home</a>
+                    <a href="genre.php" class="navigation">Genre</a>
                     <a href="#" class="navigation">Author</a>
                     <a href="#" class="navigation">Library</a>
                     <a href="#" class="navigation">About</a>
-                    <a href="#" class="navigation">Register Now</a>
+                    <a href="sign_up.php" class="navigation">Register Now</a>
                 </nav>
 
                 <div class="welcome">

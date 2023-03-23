@@ -7,7 +7,6 @@
 
 ****************/
 
-require ('authenticate.php');
 require ('connect.php');
 
 $query = "SELECT * FROM books ORDER BY book_id ASC"; 
@@ -26,7 +25,7 @@ $statement->execute();
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="admin_edit.css">
+    <link rel="stylesheet" href="admin_delete.css">
     <script src="https://kit.fontawesome.com/1b22186fee.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <title>Edit Page</title>
@@ -39,12 +38,12 @@ $statement->execute();
             
             <div class="navContainer">
                 <nav class="navMenu">
-                    <a href="#" class="navigation">Home</a>
-                    <a href="#" class="navigation">Genre</a>
+                    <a href="index.php" class="navigation">Home</a>
+                    <a href="genre.php" class="navigation">Genre</a>
                     <a href="#" class="navigation">Author</a>
                     <a href="#" class="navigation">Library</a>
                     <a href="#" class="navigation">About</a>
-                    <a href="#" class="navigation">Register Now</a>
+                    <a href="sign_up.php" class="navigation">Register Now</a>
                 </nav>
 
                 <div class="welcome">
@@ -101,9 +100,9 @@ $statement->execute();
                     <p>copyright &copy; <a href="#">Bookaholic</a></p>
                         <div class="footer-menu">
                             <ul class="f-menu">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="index.php">Home</a></li>
                             <li><a href="#">About</a></li>
-                            <li><a href="#">Register</a></li>                           
+                            <li><a href="sign_up.php">Register</a></li>                           
                             </ul>
                         </div>
                 </div>

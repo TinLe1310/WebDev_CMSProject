@@ -7,7 +7,6 @@
 
 ****************/
 
-require ('authenticate.php');
 require ('connect.php');
 
 if($_POST && isset($_POST['id'])){
@@ -55,11 +54,11 @@ if($_POST && isset($_POST['id'])){
             <div class="navContainer">
                 <nav class="navMenu">
                     <a href="index.php" class="navigation">Home</a>
-                    <a href="#" class="navigation">Genre</a>
+                    <a href="genre.php" class="navigation">Genre</a>
                     <a href="#" class="navigation">Author</a>
                     <a href="#" class="navigation">Library</a>
                     <a href="#" class="navigation">About</a>
-                    <a href="#" class="navigation">Register Now</a>
+                    <a href="sign_up.php" class="navigation">Register Now</a>
                 </nav>
 
                 <div class="welcome">
@@ -144,9 +143,9 @@ if($_POST && isset($_POST['id'])){
                     <p>copyright &copy; <a href="#">Bookaholic</a></p>
                         <div class="footer-menu">
                             <ul class="f-menu">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="index.php">Home</a></li>
                             <li><a href="#">About</a></li>
-                            <li><a href="#">Register</a></li>                           
+                            <li><a href="sign_up.php">Register</a></li>                           
                             </ul>
                         </div>
                 </div>

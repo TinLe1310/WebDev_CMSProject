@@ -6,6 +6,7 @@
     Description: CMS Project - Detailed Index Home Page
 
 ****************/
+
 require('connect.php');
 $id = filter_input(INPUT_GET, 'id', FILTER_VALIDATE_INT);
 
@@ -54,11 +55,11 @@ if(isset($_GET['id'])){
             <div class="navContainer">
                 <nav class="navMenu">
                     <a href="index.php" class="navigation">Home</a>
-                    <a href="#" class="navigation">Genre</a>
+                    <a href="genre.php" class="navigation">Genre</a>
                     <a href="#" class="navigation">Author</a>
                     <a href="#" class="navigation">Library</a>
                     <a href="#" class="navigation">About</a>
-                    <a href="#" class="navigation">Register Now</a>
+                    <a href="sign_up.php" class="navigation">Register Now</a>
                 </nav>
 
                 <div class="input-container">
@@ -146,9 +147,9 @@ if(isset($_GET['id'])){
                     <p>copyright &copy; <a href="#">Bookaholic</a></p>
                         <div class="footer-menu">
                             <ul class="f-menu">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="index.php">Home</a></li>
                             <li><a href="#">About</a></li>
-                            <li><a href="#">Register</a></li>                           
+                            <li><a href="sign_up.php">Register</a></li>                           
                             </ul>
                         </div>
                 </div>

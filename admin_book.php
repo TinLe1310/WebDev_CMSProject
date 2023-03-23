@@ -7,8 +7,21 @@
 
 ****************/
 
-require ('authenticate.php');
 require ('connect.php');
+
+// Initialize the session
+session_start();
+ 
+// Check if the user is logged in, if not then redirect him to login page
+if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
+    header("location: login.php");
+    exit;
+}
+
+if($_SESSION['username'] !== 'admin'){
+    echo '<script>alert("❗ You are not allowed to go further into Admin Accessibility ❗")</script>';
+    header("location: index.php");
+}
 
 // Prepare query to get genre_name from genre_id in Genres table
 $genre_query = "SELECT * FROM genres ORDER BY genre_id ASC";
@@ -41,11 +54,11 @@ $author_statement->execute();
             <div class="navContainer">
                 <nav class="navMenu">
                     <a href="index.php" class="navigation">Home</a>
-                    <a href="#" class="navigation">Genre</a>
+                    <a href="genre.php" class="navigation">Genre</a>
                     <a href="#" class="navigation">Author</a>
                     <a href="#" class="navigation">Library</a>
                     <a href="#" class="navigation">About</a>
-                    <a href="#" class="navigation">Register Now</a>
+                    <a href="sign_up.php" class="navigation">Register Now</a>
                 </nav>
 
                 <div class="welcome">
@@ -130,9 +143,9 @@ $author_statement->execute();
                     <p>copyright &copy; <a href="#">Bookaholic</a></p>
                         <div class="footer-menu">
                             <ul class="f-menu">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="index.php">Home</a></li>
                             <li><a href="#">About</a></li>
-                            <li><a href="#">Register</a></li>                           
+                            <li><a href="sign_up.php">Register</a></li>                           
                             </ul>
                         </div>
                 </div>

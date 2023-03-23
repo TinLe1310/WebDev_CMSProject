@@ -8,6 +8,7 @@
 ****************/
 require('connect.php');
 
+
 // SQL is written as a String.
 $query = "SELECT book_id, book_name, book_description, date_uploaded, rating, cover, pen_name, genre_name
           FROM books b JOIN authors a ON a.author_id = b.author_id 
@@ -53,24 +54,24 @@ return preg_replace("/^(.{1,$length})(\s.*|$)/s",'\\1...',$text);
             
             <div class="navContainer">
                 <nav class="navMenu">
-                    <a href="#" class="navigation">Home</a>
-                    <a href="#" class="navigation">Genre</a>
+                    <a href="index.php" class="navigation">Home</a>
+                    <a href="genre.php" class="navigation">Genre</a>
                     <a href="#" class="navigation">Author</a>
                     <a href="#" class="navigation">Library</a>
                     <a href="#" class="navigation">About</a>
-                    <a href="#" class="navigation">Register Now</a>
+                    <a href="sign_up.php" class="navigation">Register Now</a>
                 </nav>
 
                 <div class="input-container">
                     <input type="text" required=""/>
-                    <label>Searching your favorite books</label>		
-                </div>
-
+                    <label>Searching your favorite books</label> 	
+                </div>  	
             </div>
             
-            <div class="admin">
-                <a href="admin_book.php"><i class="fa-solid fa-users"></i></a>
+            <div class="admin">                  
+                <a href="admin_book.php"><i class="fa-solid fa-circle-user"></i></a>                    
             </div>
+            <a href="logout.php" class="logout">Logout</a>
         </div>    
 
         
@@ -144,17 +145,6 @@ return preg_replace("/^(.{1,$length})(\s.*|$)/s",'\\1...',$text);
                     </div>
                 </div>
             </div>
-
-            <form action="">
-                <div class="sign_up">    
-                    <p>Sign up to Bookaholic Guide</p>                                                                     
-                    <input type="text" placeholder="Enter your name"/>                                             
-                    <input type="mail" placeholder="Enter your email"/>            
-                    <button class="btn">
-                        <span>Subcribe</span>
-                    </button>
-                </div>
-            </form>
         </section>
 
         <footer>
@@ -174,9 +164,9 @@ return preg_replace("/^(.{1,$length})(\s.*|$)/s",'\\1...',$text);
                     <p>copyright &copy; <a href="#">Bookaholic</a></p>
                         <div class="footer-menu">
                             <ul class="f-menu">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="index.php">Home</a></li>
                             <li><a href="#">About</a></li>
-                            <li><a href="#">Register</a></li>                           
+                            <li><a href="sign_up.php">Register</a></li>                           
                             </ul>
                         </div>
                 </div>

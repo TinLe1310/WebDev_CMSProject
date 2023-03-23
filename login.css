@@ -120,12 +120,25 @@ box-shadow: 5px 5px 5px rgb(199, 184, 184);
 
   .main{
     background-color: transparent;
-    margin-top: 150px;
+    margin-top: 160px;
     border: 1px solid white;
     min-height: 110vh;
     width: 100%;
     margin-left: 25px;
     margin-bottom: 100px;
+  }
+  .main i{
+    color: white;
+    font-size: 2rem;
+    width: 30px;
+    transition: color .4s ease;
+    margin-top: 20px;
+    margin-right: 20px;
+    padding: 1px 4px 4px;
+  }
+  .main h2,p{
+    color: white;
+    margin-left: 20px;
   }
   #title{
     display: flex;
@@ -152,7 +165,7 @@ box-shadow: 5px 5px 5px rgb(199, 184, 184);
     font-weight: bold;
     border-right: 1px solid white;
   }
-  #title a:nth-child(2){
+  #title a:nth-child(1){
     background-color: darkgray;
   }
   #title a:hover{
@@ -164,6 +177,13 @@ position: absolute;
 color: white;
 width: 90%;
 margin-left: 20px;
+align-self: center;
+}
+.post_input p{
+  margin-left: 0;
+}
+.post_input a{
+  color: rgba(32, 149, 32, 0.911);
 }
 .input-container{
 	position:relative;
@@ -176,16 +196,18 @@ margin-left: 20px;
   top:0px;
   left:10px;
   font-size:20px;
+  font-style: bold;
   color:white;	
   pointer-events:none;
   transition: all 0.5s ease-in-out;
+  text-align: center;
 }
 .input-container input{ 
   border:0;
   border-bottom:1px solid white;  
   background:transparent;
   width:50%;
-  padding:15px 0 3px 20px;
+  padding:15px 0 3px 30px;
   font-size:16px;
   color:white;
   border-radius: 10px;
@@ -196,9 +218,10 @@ margin-left: 20px;
     border-left: 1px solid white; 
     border-right: 1px solid white;
     background:transparent;
-    width:70%;
+    width: 102%;
     height: 300px;
-    padding:15px 0 3px 20px;
+    margin-left: 3px;
+    padding:15px 0 3px 30px;
     font-size:16px;
     color:white;
     border-radius: 10px;
@@ -223,6 +246,20 @@ margin-left: 20px;
 	font-size:16px;
     font-weight: bolder;
 }
+.input-container a{
+  text-decoration: none;
+  color: white;
+  font-size: large;
+  font-style: italic;
+  font-weight: bold;
+  border-bottom: 1px solid white;
+  border-radius: 10px;
+  padding:0 10px 3px 10px;
+}
+.input-container .invalid-feedback{
+  color: red;
+  font-style: italic;
+}
 
 #button{
     height: 60px;
@@ -240,45 +277,6 @@ margin-left: 20px;
     border:1px solid rgba(32, 149, 32, 0.911);
 }
 
-
-
-.scene {
-  width: 1000px;
-  display: flex;
-  justify-content: space-between;
-  perspective: 800px;
-}
-.scene .card {
-  width: 240px;
-  height: 300px;
-  color: white;
-  cursor: pointer;
-  transition: 1s ease-in-out;
-  transform-style: preserve-3d;
-}
-.scene .card:hover {
-  transform: rotateY(0.5turn);
-}
-.scene .card .card__face {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  -webkit-backface-visibility: hidden;
-          backface-visibility: hidden;
-  transition: 1s ease-in-out;
-  -webkit-box-reflect: below 0 linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.4));
-}
-.scene .card .card__face img {
-  width: 240px;
-  height: 300px;
-  -o-object-fit: fill;
-     object-fit: fill;
-}
-.scene .card .card__face--back {
-  transform: rotateY(0.5turn);
-}
 
 
 
