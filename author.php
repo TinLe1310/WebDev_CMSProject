@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         $query = "SELECT book_id, book_name, book_description, date_uploaded, rating, cover, genre_name, pen_name
                   FROM books b JOIN genres g ON g.genre_id = b.genre_id
                                JOIN authors a ON a.author_id = b.author_id 
-                  WHERE b.author_id = :author
+                  WHERE a.pen_name = :author
                   ORDER BY rating DESC LIMIT 5";
     
         if($statement = $db->prepare($query)){
@@ -93,7 +93,7 @@ $image_array = [];
                         <label>Select your Favorite Author</label>
                         <datalist id="title_browser">
                             <?php while($author = $author_statement->fetch()): ?>
-                                <option value="<?= $author['author_id'] ?>"><?= $author['pen_name'] ?></option>
+                                <option value="<?= $author['pen_name'] ?>"></option>
                             <?php endwhile ?>
                         </datalist>
                     </div>

@@ -23,7 +23,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         $query = "SELECT book_id, book_name, book_description, date_uploaded, rating, cover, genre_name, pen_name
                   FROM books b JOIN genres g ON g.genre_id = b.genre_id
                                JOIN authors a ON a.author_id = b.author_id 
-                  WHERE b.genre_id = :genre
+                  WHERE g.genre_name = :genre
                   ORDER BY rating DESC LIMIT 5";
     
         if($statement = $db->prepare($query)){
@@ -93,7 +93,7 @@ $image_array = [];
                         <label>Select your Desired Genre</label>
                         <datalist id="title_browser">
                             <?php while($genre = $genre_statement->fetch()): ?>
-                                <option value="<?= $genre['genre_id'] ?>"><?= $genre['genre_name'] ?></option>
+                                <option value="<?= $genre['genre_name'] ?>"></option>
                             <?php endwhile ?>
                         </datalist>
                     </div>
@@ -106,7 +106,7 @@ $image_array = [];
                 <?php if($message != ""): ?>
                     <?= $message ?>
                 <?php else: ?>
-                    <?php while ($book=$statement->fetch()): ?>
+                    <?php while ($book=$statement->fetch()): ?>                                                                     
                         <div class="card">
                             <div class="card__face card__face--front">
                                 <img src="<?= $book['cover'] ?>" />
@@ -116,8 +116,7 @@ $image_array = [];
                                 <p><?= $book['pen_name'] ?></p>
                                 <a href="detailed_index.php?id=<?= $book['book_id'] ?>">Discover More</a>
                             </div>
-                        </div>
-                        
+                        </div>                       
                     <?php endwhile ?>
                 <?php endif ?>
             </div>

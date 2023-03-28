@@ -3,7 +3,7 @@
     
     Name: Tin Le
     Date: 03/14/2023
-    Description: CMS Project - Admin Upload Page
+    Description: CMS Project - Level Up Page
 
 ****************/
 
@@ -13,20 +13,20 @@ require ('connect.php');
 session_start();
  
 // Check if the user is logged in, if not then redirect him to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: login.php");
+if(!isset($_SESSION["loggedin"]) || $_SESSION["level"] != 2){
+    header("location: admin_book.php");
     exit;
 }
 
-// Prepare query to get genre_name from genre_id in Genres table
-$genre_query = "SELECT * FROM genres ORDER BY genre_id ASC";
-$genre_statement = $db->prepare($genre_query);
-$genre_statement->execute();
+// Prepare a select statement with chosen value
+$user_query = "SELECT * FROM users ORDER BY user_id ASC";
 
-// Prepare query to get pen_name from author_id in Authors table
-$author_query = "SELECT * FROM authors ORDER BY author_id ASC";
-$author_statement = $db->prepare($author_query);
-$author_statement->execute();
+// Prepare statement
+$user_statement = $db->prepare($user_query);
+
+// Attempt to execute the prepared statement
+$user_statement->execute();
+
 ?>
 
 <!DOCTYPE html>
@@ -38,7 +38,7 @@ $author_statement->execute();
     <link rel="stylesheet" href="admin_book.css">
     <script src="https://kit.fontawesome.com/1b22186fee.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
-    <title>Upload Page</title>
+    <title>Level Up Page</title>
 </head>
 <body>
     <div class="main_page">
@@ -57,65 +57,37 @@ $author_statement->execute();
                 </nav>
 
                 <div class="welcome">
-                    <h1>Welcome back The Librarian <i class="fa-brands fa-teamspeak"></i></h1>		
+                    <h1>Leveling Up Our Users  <i class="fa-brands fa-teamspeak"></i></h1>		
                 </div>
 
             </div>
             
             <div class="add_book">
-                <a href="pre_level_up.php"><i class="fa-solid fa-book-medical"></i></a>
+                <a href="admin_book.php"><i class="fa-solid fa-arrow-rotate-left"></i></a>
             </div>
         </div> 
 
         
         <section class="main">
             <div id="admin_book">  
-                <form method="post" id="form" action="upload.php"> 
+                <form method="post" id="form" action="level_up.php"> 
                     <div id="title">
-                        <a href="admin_book.php">Add New Book <i class="fa-solid fa-plus"></i></a>
-                        <a href="admin_pre_edit.php">Edit Book <i class="fa-solid fa-pen-to-square"></i></a>
-                        <a href="admin_delete.php">Delete Book <i class="fa-solid fa-trash"></i></a>
+                        <a href="#">Level Up <i class="fa-solid fa-turn-up"></i></a>
                     </div>    
             
                     <div class="post_input">
-                            
-                        <div class="input-container">
-                            <input type="text" name="title" required="">
-                            <label>Title</label>
-                        </div>
                                 
                         <div class="input-container">
-                            <input type="text" name="genre" list="genre_browser" required="">
-                            <label>Genre</label>
-                            <datalist id="genre_browser">
-                                <?php while($genre = $genre_statement->fetch()): ?>
-                                    <option value="<?= $genre['genre_name'] ?>"></option>
+                            <input type="text" name="user" list="user_browser" required="">
+                            <label>Choose User</label>
+                            <datalist id="user_browser">
+                                <?php while($user = $user_statement->fetch()): ?>
+                                    <option value="<?= $user['user_name'] ?>"></option>
                                 <?php endwhile ?>
                             </datalist>
-                        </div>    
-
-                        <div class="input-container">
-                            <input type="text" name="author" list="author_browser" required="">
-                            <label>Author</label>
-                            <datalist id="author_browser">
-                                <?php while($author = $author_statement->fetch()): ?>
-                                    <option value="<?= $author['pen_name'] ?>"></option>
-                                <?php endwhile ?>
-                            </datalist>
-                            <a href="new_item.php">+ New Author</a>
-                        </div>    
-
-                        <div class="input-container">
-                            <textarea id="content" name="content" required=""></textarea>
-                            <label>Short Description</label>
                         </div>
 
-                        <div class="input-container">
-                            <input type="text" name="rating" required="">
-                            <label>Rating</label>
-                        </div>
-
-                        <div><input type="submit" id="button" value="Upload Book"></div>
+                        <div><input type="submit" id="button" value="Choose User"></div>
                     </div>
                 </form>
             </div>

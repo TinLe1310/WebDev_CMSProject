@@ -77,7 +77,7 @@ if(isset($_GET['id'])){
         
         <section class="main">
             <div class="container">
-                <h1><i class="fa-solid fa-bookmark"></i> <?= $book['book_name']?> - <?= $book['book_id'] ?> <i class="fa-solid fa-bookmark"></i></h1>
+                <h1><i class="fa-solid fa-bookmark"></i> <?= $book['book_name']?> - <?= $book['rating'] ?> <i class="fa-solid fa-bookmark"></i></h1>
                 <div class="carousel">
                     <input type="radio" name="slides" checked="checked" id="slide-1">
                     

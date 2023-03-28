@@ -9,24 +9,39 @@
 
 require ('connect.php');
 
-// Initialize the session
-session_start();
  
 // Check if the user is logged in, if not then redirect him to login page
-if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
-    header("location: login.php");
-    exit;
+if($_POST){
+    if(!empty($_POST["user"]) && empty($_POST['id'])){
+
+        // Prepare a select statement with chosen value
+        $query = "SELECT * FROM users b 
+                  WHERE user_name = :user";
+    
+        if($statement = $db->prepare($query)){
+            // Set parameters
+            $username = $_POST["user"];
+
+            // Bind variables to the prepared statement as parameters
+            $statement->bindParam(":user", $username);
+            
+            // Attempt to execute the prepared statement
+            $statement->execute(); 
+            
+            $user = $statement -> fetch();
+        }
+    }
+    else
+    {
+        $id = $_POST['id'];
+        $level_query = "UPDATE users SET level = 2 WHERE user_id = $id";
+        $level_statement = $db->prepare($level_query);
+        $level_statement->execute();
+
+        header("Location: index.php");
+    }                                
 }
 
-// Prepare query to get genre_name from genre_id in Genres table
-$genre_query = "SELECT * FROM genres ORDER BY genre_id ASC";
-$genre_statement = $db->prepare($genre_query);
-$genre_statement->execute();
-
-// Prepare query to get pen_name from author_id in Authors table
-$author_query = "SELECT * FROM authors ORDER BY author_id ASC";
-$author_statement = $db->prepare($author_query);
-$author_statement->execute();
 ?>
 
 <!DOCTYPE html>
@@ -57,65 +72,43 @@ $author_statement->execute();
                 </nav>
 
                 <div class="welcome">
-                    <h1>Welcome back The Librarian <i class="fa-brands fa-teamspeak"></i></h1>		
+                    <h1>Leveling Up Our Users  <i class="fa-brands fa-teamspeak"></i></h1>		
                 </div>
 
             </div>
             
             <div class="add_book">
-                <a href="pre_level_up.php"><i class="fa-solid fa-book-medical"></i></a>
+                <a href="admin_book.php"><i class="fa-solid fa-arrow-rotate-left"></i></a>
             </div>
         </div> 
 
         
         <section class="main">
             <div id="admin_book">  
-                <form method="post" id="form" action="upload.php"> 
+                <form method="post" id="form" action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>"> 
                     <div id="title">
-                        <a href="admin_book.php">Add New Book <i class="fa-solid fa-plus"></i></a>
-                        <a href="admin_pre_edit.php">Edit Book <i class="fa-solid fa-pen-to-square"></i></a>
-                        <a href="admin_delete.php">Delete Book <i class="fa-solid fa-trash"></i></a>
+                        <a href="#">Level Up <i class="fa-solid fa-turn-up"></i></a>
                     </div>    
             
-                    <div class="post_input">
-                            
+                    <div class="post_input">     
+                        <input type="hidden" name="id" value="<?= $user['user_id'] ?>">
+                                                                            
                         <div class="input-container">
-                            <input type="text" name="title" required="">
-                            <label>Title</label>
-                        </div>
-                                
-                        <div class="input-container">
-                            <input type="text" name="genre" list="genre_browser" required="">
-                            <label>Genre</label>
-                            <datalist id="genre_browser">
-                                <?php while($genre = $genre_statement->fetch()): ?>
-                                    <option value="<?= $genre['genre_name'] ?>"></option>
-                                <?php endwhile ?>
-                            </datalist>
+                            <input type="text" name="name" value="<?= $user['user_name'] ?>">
+                            <label>Username</label>
                         </div>    
 
                         <div class="input-container">
-                            <input type="text" name="author" list="author_browser" required="">
-                            <label>Author</label>
-                            <datalist id="author_browser">
-                                <?php while($author = $author_statement->fetch()): ?>
-                                    <option value="<?= $author['pen_name'] ?>"></option>
-                                <?php endwhile ?>
-                            </datalist>
-                            <a href="new_item.php">+ New Author</a>
+                            <input type="text" name="level" value="<?= $user['level'] ?>">
+                            <label>Current Level</label>
                         </div>    
 
                         <div class="input-container">
-                            <textarea id="content" name="content" required=""></textarea>
-                            <label>Short Description</label>
+                            <input id="content" name="date" value="<?= $user['date_created'] ?>"></textarea>
+                            <label>Registered Date</label>
                         </div>
 
-                        <div class="input-container">
-                            <input type="text" name="rating" required="">
-                            <label>Rating</label>
-                        </div>
-
-                        <div><input type="submit" id="button" value="Upload Book"></div>
+                        <div><input type="submit" id="button" value="Level Up !!!"></div>
                     </div>
                 </form>
             </div>

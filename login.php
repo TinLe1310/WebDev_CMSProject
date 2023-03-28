@@ -38,7 +38,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     // Validate credentials
     if(empty($username_err) && empty($password_err)){
         // Prepare a select statement
-        $query = "SELECT user_id, user_name, password FROM users WHERE user_name = :username";
+        $query = "SELECT * FROM users WHERE user_name = :username";
         
         if($statement = $db->prepare($query)){
             // Set parameters
@@ -54,6 +54,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                     if($user = $statement->fetch()){
                         $id = $user["user_id"];
                         $username = $user["user_name"];
+                        $level = $user["level"];
                         $hashed_password = $user["password"];
                         if(password_verify($password, $hashed_password)){
                             // Password is correct, so start a new session
@@ -62,7 +63,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
                             // Store data in session variables
                             $_SESSION["loggedin"] = true;
                             $_SESSION["id"] = $id;
-                            $_SESSION["username"] = $username;                           
+                            $_SESSION["username"] = $username;
+                            $_SESSION["level"] = $level;                         
                             
                             // Redirect user to welcome page
                             header("Location: index.php");
