@@ -3,62 +3,45 @@
     
     Name: Tin Le
     Date: 03/14/2023
-    Description: CMS Project - Author Page
+    Description: CMS Project - Search Page
 
 ****************/
 require('connect.php');
 
-$message = "";
-
-// Prepare query to get pen_name from author_id in Authors table
-$author_query = "SELECT * FROM authors ORDER BY author_id ASC";
-$author_statement = $db->prepare($author_query);
-$author_statement->execute();
-
 if($_SERVER['REQUEST_METHOD'] == "POST"){
     // Validate genre value
-    if(!empty($_POST["author"])){
+    if(!empty($_POST["search_input"])){
 
+        $keyword = $_POST["search_input"];
         // Prepare a select statement with chosen value
-        $query = "SELECT book_id, book_name, book_description, date_uploaded, rating, cover, genre_name, pen_name
-                  FROM books b JOIN genres g ON g.genre_id = b.genre_id
-                               JOIN authors a ON a.author_id = b.author_id 
-                  WHERE a.pen_name = :author
-                  ORDER BY rating DESC LIMIT 5";
+        $query = "SELECT book_id, book_name, book_description, date_uploaded, rating, cover, pen_name, genre_name, author_name
+                    FROM books b JOIN authors a ON a.author_id = b.author_id 
+                    JOIN genres g ON g.genre_id = b.genre_id
+                    WHERE book_name LIKE '%". $keyword ."%' || genre_name LIKE '%". $keyword ."%' || 
+                                    author_name LIKE '%". $keyword ."%' || pen_name LIKE '%". $keyword ."%'
+                    ORDER BY rating DESC LIMIT 10";
     
         if($statement = $db->prepare($query)){
-            // Set parameters
-            $author = $_POST["author"];
-
-            // Bind variables to the prepared statement as parameters
-            $statement->bindParam(":author", $author);
-            
             // Attempt to execute the prepared statement
             $statement->execute();                               
         }
     }                                 
 }
-else{
-    $message = ".";
-}
 
-$image_array = [];
 ?>
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="genre.css">
+    <link rel="stylesheet" href="search.css">
     <script src="https://kit.fontawesome.com/1b22186fee.js"></script>
     <script src="https://kit.fontawesome.com/a076d05399.js"></script>
     <title>Main Page</title>
 </head>
 <body>
     <div class="main_page">
-
         <div class="header">
             <img src="images/logo.png" alt="logo">
             
@@ -73,7 +56,7 @@ $image_array = [];
                 </nav>
 
                 <div class="welcome">
-                    <h1><i class="fa-solid fa-pen-fancy"></i>  Author Categories <i class="fa-solid fa-pen-fancy"></i></h1>
+                    <h1><i class="fa-sharp fa-solid fa-magnifying-glass-arrow-right fa-flip-horizontal"></i>Searching Tool <i class="fa-sharp fa-solid fa-magnifying-glass-arrow-right"></i></h1>
                 </div>	
             </div>
             
@@ -83,43 +66,33 @@ $image_array = [];
             <a href="logout.php" class="logout">Logout</a>
         </div>    
 
-        
         <section class="main">
-            <h2>Searching books based on Author's Penname</h2>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="form">   
-                <div class="post_input">       
-                    <div class="input-container">
-                        <input type="text" name="author" required="" list="title_browser">
-                        <label>Select your Favorite Author</label>
-                        <datalist id="title_browser">
-                            <?php while($author = $author_statement->fetch()): ?>
-                                <option value="<?= $author['pen_name'] ?>"></option>
-                            <?php endwhile ?>
-                        </datalist>
-                    </div>
-                        
-                    <div><input type="submit" id="button" value="Choose Book"></div>
-                </div>
-            </form> 
+            <h2>Searching books based on keyword</h2>
+            <div class="searchContainer">
+                <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="form">   
+                    <div class="search_bar">   
+                        <div class="input-container">
+                            <input type="text" name="search_input" required="" value="<?= $keyword ?>"/>
+                            <label>Your keyword 📚</label> 	
+                        </div>
+                        <div><input type="submit" id="button" value="Search 🔎"></div> 
+                    </div> 
+                </form>
+            </div> 
 
             <div class="scene">
-                <?php if($message != ""): ?>
-                    <?= $message ?>
-                <?php else: ?>
-                    <?php while ($book=$statement->fetch()): ?>
-                        <div class="card">
-                            <div class="card__face card__face--front">
-                                <img src="<?= $book['cover'] ?>" />
-                            </div>
-                            <div class="card__face card__face--back">
-                                <h2><?= $book['book_name'] ?></h2>
-                                <p><?= $book['pen_name'] ?></p>
-                                <a href="detailed_index.php?id=<?= $book['book_id'] ?>">Discover More</a>
-                            </div>
+                <?php while ($book=$statement->fetch()): ?>                                                                     
+                    <div class="card">
+                        <div class="card__face card__face--front">
+                            <img src="<?= $book['cover'] ?>" />
                         </div>
-                        
-                    <?php endwhile ?>
-                <?php endif ?>
+                        <div class="card__face card__face--back">
+                            <h2><?= $book['book_name'] ?></h2>
+                            <p><?= $book['pen_name'] ?></p>
+                            <a href="detailed_index.php?id=<?= $book['book_id'] ?>">Discover More</a>
+                        </div>
+                    </div>                       
+                <?php endwhile ?>
             </div>
         </section>
 

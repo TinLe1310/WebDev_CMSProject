@@ -8,7 +8,6 @@
 ****************/
 require('connect.php');
 
-
 // SQL is written as a String.
 $query = "SELECT book_id, book_name, book_description, date_uploaded, rating, cover, pen_name, genre_name
           FROM books b JOIN authors a ON a.author_id = b.author_id 
@@ -62,10 +61,15 @@ return preg_replace("/^(.{1,$length})(\s.*|$)/s",'\\1...',$text);
                     <a href="sign_up.php" class="navigation">Register Now</a>
                 </nav>
 
-                <div class="input-container">
-                    <input type="text" required=""/>
-                    <label>Searching your favorite books</label> 	
-                </div>  	
+                <form action="search.php" method="post" id="form">
+                    <div class="search_bar">   
+                        <div class="input-container">
+                            <input type="text" name="search_input" required=""/>
+                            <label>Searching your favorite books 📚</label> 	
+                        </div>
+                        <div><input type="submit" id="button" value="Search 🔎"></div> 
+                    </div>  	
+                </form>
             </div>
             
             <div class="admin">                  
