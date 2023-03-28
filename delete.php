@@ -9,15 +9,15 @@
 
     require('connect.php');
 
-    //  Sanitize user input to escape HTML entities and filter out dangerous characters.
-    $id = filter_input(INPUT_POST, 'id', FILTER_VALIDATE_INT);
+    $book_name = $_POST['name'];
 
     if($_POST){
         //  Build the parameterized SQL query and bind to the above sanitized values.
-        $query = "DELETE FROM books WHERE book_id = $id";
+        $query = "DELETE FROM books WHERE book_name = :book_name";
         
         // A PDO::Statement is prepared from the query.
         $statement = $db->prepare($query);
+        $statement->bindParam(":book_name", $book_name);
 
         //  Execute the DELETE.
         //  execute() will check for possible SQL injection and remove if necessary

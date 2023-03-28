@@ -9,12 +9,18 @@
 
 require ('connect.php');
 
-if($_POST && isset($_POST['id'])){
+if($_POST && isset($_POST['name'])){
+    $book_name = $_POST['name'];
     // SQL is written as a String.
-    $query = "SELECT * FROM books WHERE book_id = {$_POST['id']}";  
+    $query = "SELECT * FROM books b
+                       JOIN genres g ON g.genre_id = b.genre_id 
+                       JOIN authors a ON a.author_id = b.author_id
+                       WHERE book_name = :book_name";  
+    
 
     // A PDO::Statement is prepared from the query.
     $statement = $db->prepare($query);
+    $statement->bindParam(":book_name", $book_name);
 
     // Execution on the DB server is delayed until we execute().
     $statement->execute(); 
@@ -91,21 +97,21 @@ if($_POST && isset($_POST['id'])){
                         </div>
                                 
                         <div class="input-container">
-                            <input type="text" name="genre" list="genre_browser" required="" value="<?= $book['genre_id'] ?>">
+                            <input type="text" name="genre" list="genre_browser" required="" value="<?= $book['genre_name'] ?>">
                             <label>Genre</label>
                             <datalist id="genre_browser">
                                 <?php while($genre = $genre_statement->fetch()): ?>
-                                    <option value="<?= $genre['genre_id'] ?>"><?= $genre['genre_name'] ?></option>
+                                    <option value="<?= $genre['genre_name'] ?>"></option>
                                 <?php endwhile ?>
                             </datalist>
                         </div>    
 
                         <div class="input-container">
-                            <input type="text" name="author" list="author_browser" required="" value="<?= $book['author_id'] ?>">
+                            <input type="text" name="author" list="author_browser" required="" value="<?= $book['pen_name'] ?>">
                             <label>Author</label>
                             <datalist id="author_browser">
                                 <?php while($author = $author_statement->fetch()): ?>
-                                    <option value="<?= $author['author_id'] ?>"><?= $author['pen_name'] ?></option>
+                                    <option value="<?= $author['pen_name'] ?>"></option>
                                 <?php endwhile ?>
                             </datalist>
                         </div>    
@@ -116,7 +122,7 @@ if($_POST && isset($_POST['id'])){
                         </div>
 
                         <div class="input-container">
-                            <input type="text" name="rating" required="" value="⭐<?= $book['rating'] ?>">
+                            <input type="text" name="rating" required="" value="<?= $book['rating'] ?>">
                             <label>Rating</label>
                         </div>
 

@@ -65,7 +65,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
     if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
         
         // Prepare an insert statement
-        $query = "INSERT INTO users (user_name, password) VALUES (:username, :password)";
+        $query = "INSERT INTO users (user_name, password, level) VALUES (:username, :password, 1)";
          
         if($statement = $db->prepare($query)){
             // Set parameters

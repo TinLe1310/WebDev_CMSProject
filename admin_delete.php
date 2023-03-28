@@ -68,11 +68,11 @@ $statement->execute();
             
                     <div class="post_input">       
                         <div class="input-container">
-                            <input type="text" name="id" required="" list="title_browser">
+                            <input type="text" name="name" required="" list="title_browser">
                             <label>Book ID for Deleting</label>
                             <datalist id="title_browser">
                                 <?php while($book = $statement->fetch()): ?>
-                                    <option value="<?= $book['book_id'] ?>"><?= $book['book_name'] ?></option>
+                                    <option value="<?= $book['book_name'] ?>"></option>
                                 <?php endwhile ?>
                             </datalist>
                         </div>

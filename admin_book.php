@@ -18,11 +18,6 @@ if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
     exit;
 }
 
-if($_SESSION['username'] !== 'admin'){
-    echo '<script>alert("❗ You are not allowed to go further into Admin Accessibility ❗")</script>';
-    header("location: index.php");
-}
-
 // Prepare query to get genre_name from genre_id in Genres table
 $genre_query = "SELECT * FROM genres ORDER BY genre_id ASC";
 $genre_statement = $db->prepare($genre_query);
@@ -94,7 +89,7 @@ $author_statement->execute();
                             <label>Genre</label>
                             <datalist id="genre_browser">
                                 <?php while($genre = $genre_statement->fetch()): ?>
-                                    <option value="<?= $genre['genre_id'] ?>"><?= $genre['genre_name'] ?></option>
+                                    <option value="<?= $genre['genre_name'] ?>"></option>
                                 <?php endwhile ?>
                             </datalist>
                         </div>    
@@ -104,7 +99,7 @@ $author_statement->execute();
                             <label>Author</label>
                             <datalist id="author_browser">
                                 <?php while($author = $author_statement->fetch()): ?>
-                                    <option value="<?= $author['author_id'] ?>"><?= $author['pen_name'] ?></option>
+                                    <option value="<?= $author['pen_name'] ?>"></option>
                                 <?php endwhile ?>
                             </datalist>
                             <a href="new_item.php">+ New Author</a>

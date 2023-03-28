@@ -3,35 +3,35 @@
     
     Name: Tin Le
     Date: 03/14/2023
-    Description: CMS Project - Genre Page
+    Description: CMS Project - Author Page
 
 ****************/
 require('connect.php');
 
 $message = "";
 
-// Prepare query to get genre_name from genre_id in Genres table
-$genre_query = "SELECT * FROM genres ORDER BY genre_id ASC";
-$genre_statement = $db->prepare($genre_query);
-$genre_statement->execute();
+// Prepare query to get pen_name from author_id in Authors table
+$author_query = "SELECT * FROM authors ORDER BY author_id ASC";
+$author_statement = $db->prepare($author_query);
+$author_statement->execute();
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
     // Validate genre value
-    if(!empty($_POST["genre"])){
+    if(!empty($_POST["author"])){
 
         // Prepare a select statement with chosen value
         $query = "SELECT book_id, book_name, book_description, date_uploaded, rating, cover, genre_name, pen_name
                   FROM books b JOIN genres g ON g.genre_id = b.genre_id
                                JOIN authors a ON a.author_id = b.author_id 
-                  WHERE b.genre_id = :genre
+                  WHERE b.author_id = :author
                   ORDER BY rating DESC LIMIT 5";
     
         if($statement = $db->prepare($query)){
             // Set parameters
-            $genre = $_POST["genre"];
+            $author = $_POST["author"];
 
             // Bind variables to the prepared statement as parameters
-            $statement->bindParam(":genre", $genre);
+            $statement->bindParam(":author", $author);
             
             // Attempt to execute the prepared statement
             $statement->execute();                               
@@ -66,14 +66,14 @@ $image_array = [];
                 <nav class="navMenu">
                     <a href="index.php" class="navigation">Home</a>
                     <a href="genre.php" class="navigation">Genre</a>
-                    <a href="author.php" class="navigation">Author</a>
+                    <a href="#" class="navigation">Author</a>
                     <a href="#" class="navigation">Library</a>
                     <a href="#" class="navigation">About</a>
                     <a href="sign_up.php" class="navigation">Register Now</a>
                 </nav>
 
                 <div class="welcome">
-                    <h1><i class="fa-solid fa-bars-staggered"></i>  Genre Categories <i class="fa-solid fa-bars-staggered"></i></h1>
+                    <h1><i class="fa-solid fa-pen-fancy"></i>  Author Categories <i class="fa-solid fa-pen-fancy"></i></h1>
                 </div>	
             </div>
             
@@ -85,15 +85,15 @@ $image_array = [];
 
         
         <section class="main">
-            <h2>Searching books based on genres</h2>
+            <h2>Searching books based on Author's Penname</h2>
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="form">   
                 <div class="post_input">       
                     <div class="input-container">
-                        <input type="text" name="genre" required="" list="title_browser">
-                        <label>Select your Desired Genre</label>
+                        <input type="text" name="author" required="" list="title_browser">
+                        <label>Select your Favorite Author</label>
                         <datalist id="title_browser">
-                            <?php while($genre = $genre_statement->fetch()): ?>
-                                <option value="<?= $genre['genre_id'] ?>"><?= $genre['genre_name'] ?></option>
+                            <?php while($author = $author_statement->fetch()): ?>
+                                <option value="<?= $author['author_id'] ?>"><?= $author['pen_name'] ?></option>
                             <?php endwhile ?>
                         </datalist>
                     </div>

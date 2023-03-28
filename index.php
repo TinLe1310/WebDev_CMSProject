@@ -56,7 +56,7 @@ return preg_replace("/^(.{1,$length})(\s.*|$)/s",'\\1...',$text);
                 <nav class="navMenu">
                     <a href="index.php" class="navigation">Home</a>
                     <a href="genre.php" class="navigation">Genre</a>
-                    <a href="#" class="navigation">Author</a>
+                    <a href="author.php" class="navigation">Author</a>
                     <a href="#" class="navigation">Library</a>
                     <a href="#" class="navigation">About</a>
                     <a href="sign_up.php" class="navigation">Register Now</a>
