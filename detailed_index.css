@@ -47,6 +47,17 @@ align-content: center;
 margin: 0px 50px 0px 50px;
 }
 
+a.logout{
+  margin-top: 100px;
+  color: transparent;
+  text-align: right;
+  font-size: larger;
+  align-content: right;
+}
+a.logout:hover{
+  color: rgba(32, 149, 32, 0.911);
+}
+
 .navMenu{
 flex-grow: 2;
 margin: 5px 30px 5px 30px;

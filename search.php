@@ -7,26 +7,53 @@
 
 ****************/
 require('connect.php');
+session_start();
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
     // Validate genre value
     if(!empty($_POST["search_input"])){
-
         $keyword = $_POST["search_input"];
-        // Prepare a select statement with chosen value
-        $query = "SELECT book_id, book_name, book_description, date_uploaded, rating, cover, pen_name, genre_name, author_name
-                    FROM books b JOIN authors a ON a.author_id = b.author_id 
-                    JOIN genres g ON g.genre_id = b.genre_id
-                    WHERE book_name LIKE '%". $keyword ."%' || genre_name LIKE '%". $keyword ."%' || 
-                                    author_name LIKE '%". $keyword ."%' || pen_name LIKE '%". $keyword ."%'
-                    ORDER BY rating DESC LIMIT 10";
-    
-        if($statement = $db->prepare($query)){
-            // Attempt to execute the prepared statement
-            $statement->execute();                               
-        }
-    }                                 
+        $_SESSION["input"] = $keyword;                               
+    }
 }
+else{
+    $keyword = $_SESSION["input"];
+}                                
+
+// Setting starting page is 0 and items per page is 5
+$start_page = 0;
+$item_per_page = 8;
+
+// Prepare and execute original query with no limit to capture number of pages
+$pages_statement = $db->prepare("SELECT book_id, book_name, book_description, date_uploaded, rating, cover, pen_name, genre_name, author_name
+                                 FROM books b JOIN authors a ON a.author_id = b.author_id 
+                                 JOIN genres g ON g.genre_id = b.genre_id
+                                 WHERE book_name LIKE '%". $keyword ."%' || genre_name LIKE '%". $keyword ."%' || 
+                                       author_name LIKE '%". $keyword ."%' || pen_name LIKE '%". $keyword ."%'");
+
+$pages_statement->execute();
+
+$number_of_items = $pages_statement->rowCount();
+$total_pages = ceil($number_of_items / $item_per_page);
+
+if(isset($_GET["page"])){
+    $page = $_GET["page"] - 1;
+    $start_page = $page * $item_per_page;
+}
+
+// Prepare a select statement with chosen value
+$query = "SELECT book_id, book_name, book_description, date_uploaded, rating, cover, pen_name, genre_name, author_name
+          FROM books b JOIN authors a ON a.author_id = b.author_id 
+          JOIN genres g ON g.genre_id = b.genre_id
+          WHERE book_name LIKE '%". $keyword ."%' || genre_name LIKE '%". $keyword ."%' || 
+                author_name LIKE '%". $keyword ."%' || pen_name LIKE '%". $keyword ."%'
+          ORDER BY rating DESC LIMIT $start_page, $item_per_page";
+
+$statement = $db->prepare($query);
+
+// Attempt to execute the prepared statement
+$statement->execute();
+
 
 ?>
 <!DOCTYPE html>
@@ -67,7 +94,7 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         </div>    
 
         <section class="main">
-            <h2>Searching books based on keyword</h2>
+            <h2>Searching Books based on Keyword</h2>
             <div class="searchContainer">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="form">   
                     <div class="search_bar">   
@@ -78,22 +105,74 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
                         <div><input type="submit" id="button" value="Search 🔎"></div> 
                     </div> 
                 </form>
-            </div> 
-
-            <div class="scene">
-                <?php while ($book=$statement->fetch()): ?>                                                                     
-                    <div class="card">
-                        <div class="card__face card__face--front">
-                            <img src="<?= $book['cover'] ?>" />
-                        </div>
-                        <div class="card__face card__face--back">
-                            <h2><?= $book['book_name'] ?></h2>
-                            <p><?= $book['pen_name'] ?></p>
-                            <a href="detailed_index.php?id=<?= $book['book_id'] ?>">Discover More</a>
-                        </div>
-                    </div>                       
-                <?php endwhile ?>
             </div>
+
+            <?php if($number_of_items > 0): ?>
+                <div class="page_info">
+                    <h2>Found <?= $number_of_items ?> Books based on your Keyword</h2>
+
+                    <?php if(!isset($_GET["page"])): ?>
+                        <?php $current_page = 1 ?>
+                    <?php else: ?>
+                        <?php $current_page = $_GET["page"] ?>
+                    <?php endif ?>
+
+                    <h2>Showing Page <?= $current_page ?> of <?= $total_pages ?></h2>
+                </div>
+                <div class="pagination">
+                    
+                    <!-- Navigate to the First Page -->
+                    <a href="?page=1">First</a>
+                    
+                    <!-- Navigate to the Previous Page -->
+                    <?php if(isset($_GET["page"]) && $_GET["page"] > 1): ?>
+                        <a href="?page= <?= $_GET["page"] - 1 ?>">Previous</a>
+                    <?php else: ?>
+                        <a href="">Previous</a>    
+                    <?php endif ?>
+                    
+                    <!-- Navigate to the Page with corresponding Number -->     
+                    <?php for($counter = 1; $counter <= $total_pages; $counter++): ?>
+                        <a href="?page=<?= $counter ?>"><?= $counter ?></a>
+                    <?php endfor ?>
+                    
+                    <!-- Navigate to the Next Page -->
+                    <?php if(!isset($_GET["page"]) && $total_pages > 1): ?>
+                        <a href="?page=2">Next</a>
+                    <?php elseif(isset($_GET["page"]) && $_GET["page"] < $total_pages): ?>
+                        <a href="?page= <?= $_GET["page"] + 1 ?>">Next</a>
+                    <?php else: ?>
+                        <a href="">Next</a> 
+                    <?php endif ?>
+                    
+                    <!-- Navigate to the Last Page -->
+                    <a href="?page=<?= $total_pages ?>">Last</a>
+                </div>
+
+                <div class="scene">
+                    <?php while ($book=$statement->fetch()): ?>                                                                     
+                        <div class="card">
+                            <div class="card__face card__face--front">
+                                <img src="<?= $book['cover'] ?>" />
+                            </div>
+                            <div class="card__face card__face--back">
+                                <h2><?= $book['book_name'] ?></h2>
+                                <p><?= $book['pen_name'] ?></p>
+                                <a href="detailed_index.php?id=<?= $book['book_id'] ?>">Discover More</a>
+                            </div>
+                        </div>                       
+                    <?php endwhile ?>
+                </div>
+            <?php else: ?>
+                <div class="page_info">
+                    <h2>Sorry 🥲 Bookaholic does not have any Books that related to your Keyword right now!</h2>
+
+                    <h2>
+                        Updated your title with this Keyword? 😊
+                        <a href="admin.php">Upload here!</a>
+                    </h2>
+                </div>
+            <?php endif ?>
         </section>
 
         <footer>
