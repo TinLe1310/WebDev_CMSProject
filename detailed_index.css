@@ -46,6 +46,27 @@ width: 100%;
 align-content: center;
 margin: 0px 50px 0px 50px;
 }
+.navContainer .search_bar{
+  display: flex;
+}
+.navContainer .search_bar #button{
+  height: 30px;
+  width: 130px;
+  color: white;
+  font-weight: normal;
+  background-color: transparent;
+  border-radius: 10px;
+  border:1px solid white;
+  border-top: none;
+  font-size: 16px;
+  font-family: 'Pacifico', cursive;
+  margin-top: 40px;
+  margin-left: 20px;
+}
+.navContainer .search_bar #button:hover{
+  background-color: rgba(32, 149, 32, 0.911);
+  border:1px solid rgba(32, 149, 32, 0.911);
+}
 
 a.logout{
   margin-top: 100px;

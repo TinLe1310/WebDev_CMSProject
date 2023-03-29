@@ -34,7 +34,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             $statement->bindParam(":genre", $genre);
             
             // Attempt to execute the prepared statement
-            $statement->execute();                               
+            $statement->execute();
+            
+            $number_of_item = $statement->rowCount();
         }
     }                                 
 }
@@ -106,18 +108,29 @@ $image_array = [];
                 <?php if($message != ""): ?>
                     <?= $message ?>
                 <?php else: ?>
-                    <?php while ($book=$statement->fetch()): ?>                                                                     
-                        <div class="card">
-                            <div class="card__face card__face--front">
-                                <img src="<?= $book['cover'] ?>" />
-                            </div>
-                            <div class="card__face card__face--back">
-                                <h2><?= $book['book_name'] ?></h2>
-                                <p><?= $book['pen_name'] ?></p>
-                                <a href="detailed_index.php?id=<?= $book['book_id'] ?>">Discover More</a>
-                            </div>
-                        </div>                       
-                    <?php endwhile ?>
+                    <?php if($number_of_item > 0): ?>
+                        <?php while ($book=$statement->fetch()): ?>                                                                     
+                            <div class="card">
+                                <div class="card__face card__face--front">
+                                    <img src="<?= $book['cover'] ?>" />
+                                </div>
+                                <div class="card__face card__face--back">
+                                    <h2><?= $book['book_name'] ?></h2>
+                                    <p><?= $book['pen_name'] ?></p>
+                                    <a href="detailed_index.php?id=<?= $book['book_id'] ?>">Discover More</a>
+                                </div>
+                            </div>                       
+                        <?php endwhile ?>
+                    <?php else: ?>
+                        <div class="page_info">
+                            <h2>Sorry 🥲 Bookaholic hasn't had any Books that catergorized as  <?= $_POST["genre"] ?> yet 😥</h2>
+
+                            <h2>
+                                Updated your own Book of this Genre? 😊
+                                <a href="admin.php">Upload here!</a>
+                            </h2>
+                        </div>
+                    <?php endif ?>
                 <?php endif ?>
             </div>
         </section>

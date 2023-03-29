@@ -34,7 +34,9 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             $statement->bindParam(":author", $author);
             
             // Attempt to execute the prepared statement
-            $statement->execute();                               
+            $statement->execute();   
+            
+            $number_of_item = $statement->rowCount();
         }
     }                                 
 }
@@ -106,19 +108,29 @@ $image_array = [];
                 <?php if($message != ""): ?>
                     <?= $message ?>
                 <?php else: ?>
-                    <?php while ($book=$statement->fetch()): ?>
-                        <div class="card">
-                            <div class="card__face card__face--front">
-                                <img src="<?= $book['cover'] ?>" />
+                    <?php if($number_of_item > 0): ?>
+                        <?php while ($book=$statement->fetch()): ?>
+                            <div class="card">
+                                <div class="card__face card__face--front">
+                                    <img src="<?= $book['cover'] ?>" />
+                                </div>
+                                <div class="card__face card__face--back">
+                                    <h2><?= $book['book_name'] ?></h2>
+                                    <p><?= $book['pen_name'] ?></p>
+                                    <a href="detailed_index.php?id=<?= $book['book_id'] ?>">Discover More</a>
+                                </div>
                             </div>
-                            <div class="card__face card__face--back">
-                                <h2><?= $book['book_name'] ?></h2>
-                                <p><?= $book['pen_name'] ?></p>
-                                <a href="detailed_index.php?id=<?= $book['book_id'] ?>">Discover More</a>
-                            </div>
+                        <?php endwhile ?>
+                    <?php else: ?>
+                        <div class="page_info">
+                            <h2>Sorry 🥲 Bookaholic hasn't had any Books written by <?= $_POST["author"] ?> yet 😥</h2>
+
+                            <h2>
+                                Updated your own Book of this Author? 😊
+                                <a href="admin.php">Upload here!</a>
+                            </h2>
                         </div>
-                        
-                    <?php endwhile ?>
+                    <?php endif ?>
                 <?php endif ?>
             </div>
         </section>

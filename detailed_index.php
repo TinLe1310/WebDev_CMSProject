@@ -62,15 +62,19 @@ if(isset($_GET['id'])){
                     <a href="sign_up.php" class="navigation">Register Now</a>
                 </nav>
 
-                <div class="input-container">
-                    <input type="text" required=""/>
-                    <label>Searching your favorite books</label>		
-                </div>
-
+                <form action="search.php" method="post" id="form">
+                    <div class="search_bar">   
+                        <div class="input-container">
+                            <input type="text" name="search_input" required=""/>
+                            <label>Searching your favorite books 📚</label> 	
+                        </div>
+                        <div><input type="submit" id="button" value="Search 🔎"></div> 
+                    </div>  	
+                </form>
             </div>
             
             <div class="admin">
-                <a href="admin_book.php"><i class="fa-solid fa-users"></i></a>
+                <a href="admin_book.php"><i class="fa-solid fa-circle-user"></i></a>
             </div>
         </div>    
 
