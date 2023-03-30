@@ -7,6 +7,7 @@
 
 ****************/
 require('connect.php');
+session_cache_limiter('private_no_expire');
 session_start();
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
@@ -133,8 +134,13 @@ $statement->execute();
                     
                     <!-- Navigate to the Page with corresponding Number -->     
                     <?php for($counter = 1; $counter <= $total_pages; $counter++): ?>
-                        <a href="?page=<?= $counter ?>"><?= $counter ?></a>
+                        <?php if($total_pages > 1): ?>
+                            <a href="?page=<?= $counter ?>"><?= $counter ?></a>
+                        <?php else: ?>
+                            <a href=""><?= $counter ?></a>
+                        <?php endif ?>
                     <?php endfor ?>
+                    
                     
                     <!-- Navigate to the Next Page -->
                     <?php if(!isset($_GET["page"]) && $total_pages > 1): ?>
@@ -169,7 +175,7 @@ $statement->execute();
 
                     <h2>
                         Updated your title with this Keyword? 😊
-                        <a href="admin.php">Upload here!</a>
+                        <a href="admin_book.php">Upload here!</a>
                     </h2>
                 </div>
             <?php endif ?>

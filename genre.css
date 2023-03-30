@@ -306,7 +306,7 @@ box-shadow: 5px 5px 5px rgb(199, 184, 184);
   -webkit-box-reflect: below 0 linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.4));
 }
 .scene .card .card__face img {
-  width: 240px;
+  width: 200px;
   height: 300px;
   -o-object-fit: fill;
      object-fit: fill;

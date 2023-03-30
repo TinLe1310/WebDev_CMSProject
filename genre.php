@@ -127,7 +127,7 @@ $image_array = [];
 
                             <h2>
                                 Updated your own Book of this Genre? 😊
-                                <a href="admin.php">Upload here!</a>
+                                <a href="admin_book.php">Upload here!</a>
                             </h2>
                         </div>
                     <?php endif ?>
