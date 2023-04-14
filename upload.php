@@ -15,6 +15,7 @@
     $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $content = filter_input(INPUT_POST, 'content', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $rating = filter_input(INPUT_POST, 'rating', FILTER_VALIDATE_INT);
+    $cover = filter_input(INPUT_POST,'cover', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     // Prepare query to get genre_id from genre_name in Genres table
     $genre_query = "SELECT genre_id FROM genres WHERE genre_name = :genre";
@@ -34,7 +35,7 @@
     
     if($_POST){
         //  Build the parameterized SQL query and bind to the above sanitized values.
-        $query = "INSERT INTO books (book_name, genre_id, author_id, book_description, rating) VALUES (:title, :genre, :author, :content, :rating)";  
+        $query = "INSERT INTO books (book_name, genre_id, author_id, book_description, rating, cover) VALUES (:title, :genre, :author, :content, :rating, :cover)";  
         
         // A PDO::Statement is prepared from the query.
         $statement = $db->prepare($query);
@@ -43,8 +44,9 @@
         $statement->bindValue(":title", $title);
         $statement->bindValue(":genre", $genre_id['genre_id']);
         $statement->bindValue(":author", $author_id['author_id']);
-        $statement->bindValue(":content", $content);
+        $statement->bindValue(":content", $content); 
         $statement->bindValue(":rating", $rating);
+        $statement->bindValue(":cover", $cover);
 
         //  Execute the INSERT.
         //  execute() will check for possible SQL injection and remove if necessary

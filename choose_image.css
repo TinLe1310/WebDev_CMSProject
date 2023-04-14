@@ -1,6 +1,6 @@
 
 body{
-    min-height: 200vh;
+    min-height: 700vh;
     background-image: linear-gradient(rgba(4,9,30,0.7), rgba(4,9,30,0.7)), url(images/background.jpg);
     width: 100%;
     background-position: center;
@@ -273,8 +273,8 @@ box-shadow: 5px 5px 5px rgb(199, 184, 184);
   }
   
   #button{
-      height: 60px;
-      width: 170px;
+      height: 75px;
+      width: 165px;
       color: white;
       font-weight: normal;
       background-color: transparent;
@@ -282,6 +282,8 @@ box-shadow: 5px 5px 5px rgb(199, 184, 184);
       border:1px solid white;
       font-size: 20px;
       font-family: 'Pacifico', cursive;
+      margin-top: 50px;
+      margin-left: 35px;
   }
   #button:hover{
       background-color: rgba(32, 149, 32, 0.911);
@@ -374,28 +376,23 @@ box-shadow: 5px 5px 5px rgb(199, 184, 184);
   color: aquamarine;
   padding-right: 10px;
   text-align: center;
-  margin-bottom: 0;
+  margin-bottom: 50px;
   width: 80%;
 }
-.scene .card .card__face--back p{
-  font-size: medium;
-  font-weight: lighter;
-  text-align: left;
-  padding-left: 10px;
-  margin-top: 0px;
-  margin-bottom: 100px;
-}
 .scene .card .card__face--back a{
+  text-decoration: none;
   color: white;
   align-content: center;
-  margin-top: 100px;
-  padding-left: 20px;
-  padding-top: 50px; 
+  margin-left: 35px;
+  border: 1px solid white;
+  border-radius: 5px;
+  padding: 20px;
+  font-size: 20px;
+  font-family: 'Pacifico', cursive;
 }
 .scene .card .card__face--back a:hover{
-  color: aquamarine;
-  font-weight: bolder;
-  font-size: large;
+    background-color: rgba(32, 149, 32, 0.911);
+    border:1px solid rgba(32, 149, 32, 0.911);
 }
 
 

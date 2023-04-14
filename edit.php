@@ -16,6 +16,7 @@
     $author = filter_input(INPUT_POST, 'author', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $content = filter_input(INPUT_POST,'content',FILTER_SANITIZE_FULL_SPECIAL_CHARS);
     $rating = filter_input(INPUT_POST, 'rating', FILTER_VALIDATE_INT);
+    $cover = filter_input(INPUT_POST,'cover', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
 
     // Prepare query to get genre_id from genre_name in Genres table
     $genre_query = "SELECT genre_id FROM genres WHERE genre_name = :genre";
@@ -33,7 +34,7 @@
 
     if($_POST){
         //  Build the parameterized SQL query and bind to the above sanitized values.
-        $query = "UPDATE books SET book_name = :title, genre_id = :genre, author_id = :author, book_description = :content, rating = :rating WHERE book_id = $id";
+        $query = "UPDATE books SET book_name = :title, genre_id = :genre, author_id = :author, book_description = :content, rating = :rating, cover = :cover WHERE book_id = $id";
         
         // A PDO::Statement is prepared from the query.
         $statement = $db->prepare($query);
@@ -44,6 +45,7 @@
         $statement->bindValue(":author", $author_id['author_id']);
         $statement->bindValue(":content", $content);
         $statement->bindValue(":rating", $rating);
+        $statement->bindValue(":cover", $cover);
 
         //  Execute the UPDATE.
         //  execute() will check for possible SQL injection and remove if necessary

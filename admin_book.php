@@ -11,6 +11,7 @@ require ('connect.php');
 
 // Initialize the session
 session_start();
+$_SESSION["key"] = "upload";
  
 // Check if the user is logged in, if not then redirect him to login page
 if(!isset($_SESSION["loggedin"]) || $_SESSION["loggedin"] !== true){
@@ -70,15 +71,29 @@ $author_statement->execute();
         
         <section class="main">
             <div id="admin_book">  
-                <form method="post" id="form" action="upload.php"> 
-                    <div id="title">
-                        <a href="admin_book.php">Add New Book <i class="fa-solid fa-plus"></i></a>
-                        <a href="admin_pre_edit.php">Edit Book <i class="fa-solid fa-pen-to-square"></i></a>
-                        <a href="admin_delete.php">Delete Book <i class="fa-solid fa-trash"></i></a>
-                    </div>    
-            
+                 
+                <div id="title">
+                    <a href="admin_book.php">Add New Book <i class="fa-solid fa-plus"></i></a>
+                    <a href="admin_pre_edit.php">Edit Book <i class="fa-solid fa-pen-to-square"></i></a>
+                    <a href="admin_delete.php">Delete Book <i class="fa-solid fa-trash"></i></a>
+                </div>              
+                
+                <form method="post" id="form" action="upload.php">
                     <div class="post_input">
                             
+                        <div class="input-container">
+                            <p>Cover Image</p>
+                            <?php if(isset($_GET['cover'])): ?>
+                                <img src="uploads/<?= $_GET['cover'] ?>" alt="">
+                                <input name="cover" type="hidden" value="<?= $_GET['cover'] ?>">
+                                <a href="choose_image.php">+ Choose Other Cover</a>
+                            <?php else: ?>
+                                <p>NO COVER SELECTED</p>
+                                <input name="cover" type="hidden" value="">
+                                <a href="choose_image.php">+ Choose Cover</a>
+                            <?php endif ?>
+                        </div>
+
                         <div class="input-container">
                             <input type="text" name="title" required="">
                             <label>Title</label>
@@ -139,7 +154,7 @@ $author_statement->execute();
                         <div class="footer-menu">
                             <ul class="f-menu">
                             <li><a href="index.php">Home</a></li>
-                            <li><a href="#">About</a></li>
+                            <li><a href="choose_image.php">About</a></li>
                             <li><a href="sign_up.php">Register</a></li>                           
                             </ul>
                         </div>

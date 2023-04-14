@@ -9,35 +9,44 @@
 
 require ('connect.php');
 
+session_start();
+$_SESSION["key"] = "edit";
+
 if($_POST && isset($_POST['name'])){
+    $_SESSION["book"] = $_POST["name"];
     $book_name = $_POST['name'];
-    // SQL is written as a String.
-    $query = "SELECT * FROM books b
-                       JOIN genres g ON g.genre_id = b.genre_id 
-                       JOIN authors a ON a.author_id = b.author_id
-                       WHERE book_name = :book_name";  
-    
-
-    // A PDO::Statement is prepared from the query.
-    $statement = $db->prepare($query);
-    $statement->bindParam(":book_name", $book_name);
-
-    // Execution on the DB server is delayed until we execute().
-    $statement->execute(); 
-
-    $book = $statement->fetch();
-
-    // Prepare query to get genre_name from genre_id in Genres table
-    $genre_query = "SELECT * FROM genres ORDER BY genre_id ASC";
-    $genre_statement = $db->prepare($genre_query);
-    $genre_statement->execute();
-
-    // Prepare query to get pen_name from author_id in Authors table
-    $author_query = "SELECT * FROM authors ORDER BY author_id ASC";
-    $author_statement = $db->prepare($author_query);
-    $author_statement->execute();
+} 
+else if(isset($_SESSION["book"])){
+    $book_name = $_SESSION["book"];
 }
-   
+
+// SQL is written as a String.
+$query = "SELECT * FROM books b
+JOIN genres g ON g.genre_id = b.genre_id 
+JOIN authors a ON a.author_id = b.author_id
+WHERE book_name = :book_name";  
+
+
+// A PDO::Statement is prepared from the query.
+$statement = $db->prepare($query);
+$statement->bindParam(":book_name", $book_name);
+
+// Execution on the DB server is delayed until we execute().
+$statement->execute(); 
+
+$book = $statement->fetch();
+
+
+// Prepare query to get genre_name from genre_id in Genres table
+$genre_query = "SELECT * FROM genres ORDER BY genre_id ASC";
+$genre_statement = $db->prepare($genre_query);
+$genre_statement->execute();
+
+// Prepare query to get pen_name from author_id in Authors table
+$author_query = "SELECT * FROM authors ORDER BY author_id ASC";
+$author_statement = $db->prepare($author_query);
+$author_statement->execute();
+
 ?>
 
 <!DOCTYPE html>
@@ -119,6 +128,23 @@ if($_POST && isset($_POST['name'])){
                         <div class="input-container">
                             <textarea id="content" name="content" required=""><?= $book['book_description'] ?></textarea>
                             <label>Short Description</label>
+                        </div>
+
+                        <div class="input-container">
+                            <p>Cover Image</p>
+                            <?php if(isset($_GET['cover'])): ?>
+                                <img src="uploads/<?= $_GET['cover'] ?>" alt="">
+                                <input name="cover" type="hidden" value="<?= $_GET['cover'] ?>">
+                                <a href="choose_image.php">+ Choose Other Cover</a>
+                            <?php elseif($book['cover'] !== ""): ?>
+                                <img src="uploads/<?= $book['cover']?>" alt="">
+                                <input name="cover" type="hidden" value="<?= $book['cover'] ?>">
+                                <a href="choose_image.php">+ Choose Other Cover</a>
+                            <?php else: ?>
+                                <p>NO COVER IMAGE FOUND</p>
+                                <a href="choose_image.php">+ Choose Cover</a>
+                            <?php endif ?>
+                            
                         </div>
 
                         <div class="input-container">

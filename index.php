@@ -95,7 +95,7 @@ return preg_replace("/^(.{1,$length})(\s.*|$)/s",'\\1...',$text);
                             <li class="carousel__slide">
                                 <figure>
                                     <div>
-                                        <img src="<?= $book['cover'] ?>" alt="cover_images">
+                                        <img src="uploads/<?= $book['cover'] ?>" alt="cover_images">
                                     </div>
                                     <figcaption>
                                         <a href="detailed_index.php?id=<?= $book['book_id'] ?>" class="title">
@@ -118,22 +118,22 @@ return preg_replace("/^(.{1,$length})(\s.*|$)/s",'\\1...',$text);
                     </ul>    
                     <ul class="carousel__thumbnails">
                         <li>
-                            <label for="slide-1"><img src="<?= $image_array[0] ?>" alt=""></label>
+                            <label for="slide-1"><img src="uploads/<?= $image_array[0] ?>" alt=""></label>
                         </li>               
                         <li>
-                            <label for="slide-2"><img src="<?= $image_array[1] ?>" alt=""></label>
+                            <label for="slide-2"><img src="uploads/<?= $image_array[1] ?>" alt=""></label>
                         </li>
                         <li>
-                            <label for="slide-3"><img src="<?= $image_array[2] ?>" alt=""></label>
+                            <label for="slide-3"><img src="uploads/<?= $image_array[2] ?>" alt=""></label>
                         </li>
                         <li>
-                            <label for="slide-4"><img src="<?= $image_array[3] ?>" alt=""></label>
+                            <label for="slide-4"><img src="uploads/<?= $image_array[3] ?>" alt=""></label>
                         </li>
                         <li>
-                            <label for="slide-5"><img src="<?= $image_array[4] ?>" alt=""></label>
+                            <label for="slide-5"><img src="uploads/<?= $image_array[4] ?>" alt=""></label>
                         </li>
                         <li>
-                            <label for="slide-6"><img src="<?= $image_array[5] ?>" alt=""></label>
+                            <label for="slide-6"><img src="uploads/<?= $image_array[5] ?>" alt=""></label>
                         </li>
                     </ul>
                 </div>

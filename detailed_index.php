@@ -89,7 +89,7 @@ if(isset($_GET['id'])){
                         <li class="carousel__slide">
                             <figure>
                                 <div>
-                                    <img src="<?= $book['cover'] ?>" alt="cover_images">
+                                    <img src="uploads/<?= $book['cover'] ?>" alt="cover_images">
                                 </div>
                                 <figcaption>
                                     <span class="title">

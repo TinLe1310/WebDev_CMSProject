@@ -112,7 +112,7 @@ $image_array = [];
                         <?php while ($book=$statement->fetch()): ?>
                             <div class="card">
                                 <div class="card__face card__face--front">
-                                    <img src="<?= $book['cover'] ?>" />
+                                    <img src="uploads/<?= $book['cover'] ?>" />
                                 </div>
                                 <div class="card__face card__face--back">
                                     <h2><?= $book['book_name'] ?></h2>

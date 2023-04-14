@@ -8,10 +8,12 @@
 ****************/
 
     require('connect.php');
+    session_start();
+    
 
-    $book_name = $_POST['name'];
+    if($_POST && $_SESSION["image"] !== "delete" ){
+        $book_name = $_POST['name'];
 
-    if($_POST){
         //  Build the parameterized SQL query and bind to the above sanitized values.
         $query = "DELETE FROM books WHERE book_name = :book_name";
         
@@ -25,6 +27,9 @@
             header("Location: index.php");
             exit;
         }
+    }
+    else if(isset($_SESSION["image"])){
+        unlink("unloads/" . $_POST['cover']);
     }
     else $message = "❗❗❗ ERROR❗❗❗";
 

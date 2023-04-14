@@ -150,7 +150,14 @@ box-shadow: 5px 5px 5px rgb(199, 184, 184);
 
 
 
-
+  .upload{
+    background-color: transparent;
+    border: 1px solid white;
+    min-height: 30vh;
+    width: 100%;
+    margin-left: 30px;
+    margin-bottom: 150px;
+  }
 .main{
   background-color: transparent;
     margin-top: 150px;
@@ -196,6 +203,7 @@ box-shadow: 5px 5px 5px rgb(199, 184, 184);
   width: 90%;
   margin-left: 20px;
   }
+
   .input-container{
     position:relative;
     margin-top: 10px;
