@@ -7,10 +7,12 @@
 
 ****************/
 require('connect.php');
-
+session_start();
 $username = $username_err = "";
 $password = $password_err = "";
+$captcha_err = "";
 $confirm_password = $confirm_password_err = "";
+
 
 if($_SERVER['REQUEST_METHOD'] == "POST"){
     // Validate username
@@ -60,9 +62,18 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
             $confirm_password_err = " * Password did not match.";
         }
     }
+
+    
+    // Validate Captcha input
+    $captcha_input = $_POST['captcha-input'];
+    if($captcha_input !== $_SESSION['captcha_text']){
+        $captcha_err = "Invalid Captcha";
+    }else{
+        $captcha_input = $_POST['captcha-input'];
+    }
     
     // Check input errors before inserting in database
-    if(empty($username_err) && empty($password_err) && empty($confirm_password_err)){
+    if(empty($username_err) && empty($password_err) && empty($confirm_password_err) && empty($captcha_err)){
         
         // Prepare an insert statement
         $query = "INSERT INTO users (user_name, password, level) VALUES (:username, :password, 1)";
@@ -126,22 +137,28 @@ if($_SERVER['REQUEST_METHOD'] == "POST"){
         <section class="main">   
             <h2>Sign Up <i class="fa-solid fa-user-plus"></i></h2>
             <p>Please fill this form to create an account.</p>
-            <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
+            <form action="<?= htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post">
                 <div class="post_input">     
                     <div class="input-container">
-                        <input type="text" name="username" required="" class="form-control <?php echo (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $username; ?>">
+                        <input type="text" name="username" required="" class="form-control <?= (!empty($username_err)) ? 'is-invalid' : ''; ?>" value="<?= $username; ?>">
                         <label>Username</label>
-                        <span class="invalid-feedback"><?php echo $username_err; ?></span>
+                        <span class="invalid-feedback"><?= $username_err; ?></span>
                     </div>       
                     <div class="input-container">                       
-                        <input type="password" name="password" required=""class="form-control <?php echo (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $password; ?>">
+                        <input type="password" name="password" required=""class="form-control <?= (!empty($password_err)) ? 'is-invalid' : ''; ?>" value="<?= $password; ?>">
                         <label>Password</label>
-                        <span class="invalid-feedback"><?php echo $password_err; ?></span>
+                        <span class="invalid-feedback"><?= $password_err; ?></span>
                     </div>
                     <div class="input-container">                        
-                        <input type="password" name="confirm_password" required="" class="form-control <?php echo (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?php echo $confirm_password; ?>">
+                        <input type="password" name="confirm_password" required="" class="form-control <?= (!empty($confirm_password_err)) ? 'is-invalid' : ''; ?>" value="<?= $confirm_password; ?>">
                         <label>Confirm Password</label>
-                        <span class="invalid-feedback"><?php echo $confirm_password_err; ?></span>
+                        <span class="invalid-feedback"><?= $confirm_password_err; ?></span>
+                    </div>
+                    <div class="input-container">                        
+                        <label for="captcha-input">Enter the CAPTCHA text:</label>
+                        <input type="text" id="captcha-input" name="captcha-input" required>
+                        <img src="captcha.php" alt="CAPTCHA Image">
+                        <span class="invalid-feedback"><?= $captcha_err; ?></span>
                     </div>
                     <div>
                         <input type="submit" id="button" value="Sign Up">

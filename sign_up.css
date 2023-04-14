@@ -260,6 +260,13 @@ align-self: center;
   color: red;
   font-style: italic;
 }
+.input-container img{
+  width: 100px;
+  height: 100px;
+  margin-top: 50px;
+  margin-left: 30px;
+  margin-right: 30px;
+}
 
 #button{
     height: 60px;
