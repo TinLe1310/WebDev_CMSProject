@@ -95,6 +95,7 @@ $statement->execute();
         </div>    
 
         <section class="main">
+            
             <h2>Searching Books based on Keyword</h2>
             <div class="searchContainer">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="form">   
