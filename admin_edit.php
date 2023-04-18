@@ -133,12 +133,12 @@ $author_statement->execute();
                         <div class="input-container">
                             <p>Cover Image</p>
                             <?php if(isset($_GET['cover'])): ?>
+                                <input name="cover" type="text" value="<?= $_GET['cover'] ?>">
                                 <img src="uploads/<?= $_GET['cover'] ?>" alt="">
-                                <input name="cover" type="hidden" value="<?= $_GET['cover'] ?>">
                                 <a href="choose_image.php">+ Choose Other Cover</a>
                             <?php elseif($book['cover'] !== ""): ?>
+                                <input name="cover" type="text" value="<?= $book['cover'] ?>">
                                 <img src="uploads/<?= $book['cover']?>" alt="">
-                                <input name="cover" type="hidden" value="<?= $book['cover'] ?>">
                                 <a href="choose_image.php">+ Choose Other Cover</a>
                             <?php else: ?>
                                 <p>NO COVER IMAGE FOUND</p>

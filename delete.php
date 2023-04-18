@@ -11,7 +11,7 @@
     session_start();
     
 
-    if($_POST && $_SESSION["image"] !== "delete" ){
+    if($_POST && !isset($_SESSION["image"])){
         $book_name = $_POST['name'];
 
         //  Build the parameterized SQL query and bind to the above sanitized values.
@@ -28,8 +28,9 @@
             exit;
         }
     }
-    else if(isset($_SESSION["image"])){
-        unlink("unloads/" . $_POST['cover']);
+    elseif($_SESSION['image'] == 'delete'){
+        array_map('unlink', glob("uploads/".$_POST['cover']));
+        header("Location: choose_image.php");
     }
     else $message = "❗❗❗ ERROR❗❗❗";
 
