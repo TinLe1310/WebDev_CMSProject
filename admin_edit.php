@@ -135,8 +135,9 @@ $author_statement->execute();
                             <?php if(isset($_GET['cover'])): ?>
                                 <input name="cover" type="text" value="<?= $_GET['cover'] ?>">
                                 <img src="uploads/<?= $_GET['cover'] ?>" alt="">
-                                <a href="choose_image.php">+ Choose Other Cover</a>
-                            <?php elseif($book['cover'] !== ""): ?>
+                                <a href="choose_image.php">+ Choose Other Covers</a>
+                            <?php elseif(!is_null($book['cover'])): ?>
+                                <p><?= $book['cover'] ?></p>
                                 <input name="cover" type="text" value="<?= $book['cover'] ?>">
                                 <img src="uploads/<?= $book['cover']?>" alt="">
                                 <a href="choose_image.php">+ Choose Other Cover</a>

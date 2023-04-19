@@ -30,8 +30,7 @@ $item_per_page = 8;
 $pages_statement = $db->prepare("SELECT book_id, book_name, book_description, date_uploaded, rating, cover, pen_name, genre_name, author_name
                                  FROM books b JOIN authors a ON a.author_id = b.author_id 
                                  JOIN genres g ON g.genre_id = b.genre_id
-                                 WHERE book_name LIKE '%". $keyword ."%' || genre_name LIKE '%". $keyword ."%' || 
-                                    author_name LIKE '%". $keyword ."%' || pen_name LIKE '%". $keyword ."%'");
+                                 WHERE genre_name LIKE '%". $keyword ."%'");
 
 $pages_statement->execute();
 
@@ -47,8 +46,7 @@ if(isset($_GET["page"])){
 $query = "SELECT book_id, book_name, book_description, date_uploaded, rating, cover, pen_name, genre_name, author_name
             FROM books b JOIN authors a ON a.author_id = b.author_id 
             JOIN genres g ON g.genre_id = b.genre_id
-            WHERE book_name LIKE '%". $keyword ."%' || genre_name LIKE '%". $keyword ."%' || 
-                    author_name LIKE '%". $keyword ."%' || pen_name LIKE '%". $keyword ."%'
+            WHERE  genre_name LIKE '%". $keyword ."%'
             ORDER BY rating DESC LIMIT $start_page, $item_per_page";
 
 
@@ -104,7 +102,7 @@ $statement->execute();
                 <a href="search_author.php">Author <i class="fa-solid fa-trash"></i></a>
             </div>
 
-            <h2>Searching Books based on Keyword</h2>
+            <h2>Searching Books based on Keyword in Genres</h2>
             <div class="searchContainer">
                 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="post" id="form">   
                     <div class="search_bar">   

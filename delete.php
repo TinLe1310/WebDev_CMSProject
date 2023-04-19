@@ -29,7 +29,17 @@
         }
     }
     elseif($_SESSION['image'] == 'delete'){
+        $cover = $_POST['cover'];
+        //  Build the parameterized SQL query and bind to the above sanitized values.
+        $query = "UPDATE books SET cover = null WHERE cover LIKE '%". $cover ."%'";
+        
+        // A PDO::Statement is prepared from the query.
+        $statement = $db->prepare($query);
+
+        $statement->execute();
+
         array_map('unlink', glob("uploads/".$_POST['cover']));
+
         header("Location: choose_image.php");
     }
     else $message = "❗❗❗ ERROR❗❗❗";
